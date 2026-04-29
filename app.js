@@ -471,34 +471,6 @@
 
   function destroyChart(key) { if (charts[key]) { charts[key].destroy(); delete charts[key]; } }
 
-  function drawVoteChart() {
-    destroyChart("vote");
-    const post = D.BOARD_VOTES.filter(v => v.post_hstpa).sort((a,b) => a.year - b.year);
-    const piocLookup = Object.fromEntries(D.PIOC_HISTORY.map(p => [p.year, p.pct]));
-    const labels = post.map(v => v.year);
-    const ctx = $("#chart-vote");
-    if (!ctx) return;
-    const zeroAxis = $("#zero-axis-vote").checked;
-    charts.vote = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels,
-        datasets: [
-          { label: "Board vote · 1-year", data: post.map(v => v.one_year), borderColor: TOKEN.accent2, backgroundColor: TOKEN.accent2, tension: 0, borderWidth: 2.5, pointRadius: 4 },
-          { label: "PIOC", data: post.map(v => piocLookup[v.year] || null), borderColor: TOKEN.muted, backgroundColor: TOKEN.muted, tension: 0, borderWidth: 2, borderDash: [4,4], pointRadius: 3 },
-        ]
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        scales: {
-          x: { grid: { color: TOKEN.grid }, ticks: { color: TOKEN.text } },
-          y: { beginAtZero: zeroAxis, grid: { color: TOKEN.grid }, ticks: { color: TOKEN.text, callback: v => v + "%" } },
-        },
-        plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${c.raw}%` } } },
-      }
-    });
-  }
-
   function drawRealRentChart() {
     destroyChart("realrent");
     // 1-year vote minus CPI for that calendar year — negative = real-dollar rollback.
@@ -510,7 +482,6 @@
       .filter(d => d.gap !== null && !isNaN(d.gap));
     const ctx = $("#chart-realrent");
     if (!ctx) return;
-    const zeroAxis = $("#zero-axis-realrent")?.checked ?? true;
     charts.realrent = new Chart(ctx, {
       type: "bar",
       data: {
@@ -525,7 +496,7 @@
         responsive: true, maintainAspectRatio: false,
         scales: {
           x: { grid: { display: false }, ticks: { color: TOKEN.text } },
-          y: { beginAtZero: zeroAxis, grid: { color: TOKEN.grid }, ticks: { color: TOKEN.text, callback: v => v + " pts" } },
+          y: { grid: { color: TOKEN.grid }, ticks: { color: TOKEN.text, callback: v => v + " pts" } },
         },
         plugins: {
           legend: { display: false },
@@ -559,7 +530,6 @@
     rows.sort((a,b) => b.val - a.val);
     const ctx = $("#chart-compare");
     if (!ctx) return;
-    const zeroAxis = $("#zero-axis-cmp").checked;
     charts.cmp = new Chart(ctx, {
       type: "bar",
       data: {
@@ -569,7 +539,7 @@
       options: {
         indexAxis: "y", responsive: true, maintainAspectRatio: false,
         scales: {
-          x: { beginAtZero: zeroAxis, grid: { color: TOKEN.grid }, ticks: { callback: v => v + "%", color: TOKEN.text } },
+          x: { beginAtZero: true, grid: { color: TOKEN.grid }, ticks: { callback: v => v + "%", color: TOKEN.text } },
           y: { grid: { display: false }, ticks: { color: TOKEN.text } },
         },
         plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `${c.label}: ${FMT(c.raw,2)}%` } } },
@@ -582,12 +552,12 @@
     const post = D.BOARD_VOTES.filter(v => v.post_hstpa).sort((a,b) => a.year - b.year);
     const piocLookup = Object.fromEntries(D.PIOC_HISTORY.map(p => [p.year, p.pct]));
     const omLookup = { 2025: 64.9, 2026: 63.6 };
-    // For each year: if PIOC and OM share known, compute net-revenue commensurate as PIOC × OM/100, then apportion 1-yr.
     const labels = post.map(v => v.year);
     const voteSeries = post.map(v => v.one_year);
+    const piocSeries = post.map(v => piocLookup[v.year] ?? null);
     const cmsSeries = post.map(v => {
       const pioc = piocLookup[v.year];
-      const om = omLookup[v.year] || 64.9; // default to recent
+      const om = omLookup[v.year] || 64.9;
       if (!pioc) return null;
       const rev = (om/100) * pioc;
       const { one } = apportion(rev, 43, 57);
@@ -595,18 +565,18 @@
     });
     const ctx = $("#chart-hist");
     if (!ctx) return;
-    const zeroAxis = $("#zero-axis-hist").checked;
     charts.hist = new Chart(ctx, {
       type: "line",
       data: { labels, datasets: [
-        { label: "Board vote · 1-year", data: voteSeries, borderColor: TOKEN.accent2, backgroundColor: TOKEN.accent2, borderWidth: 2.5, pointRadius: 4, tension: 0.15 },
-        { label: "Net-revenue commensurate · 1-year (modeled)", data: cmsSeries, borderColor: TOKEN.accent, backgroundColor: TOKEN.accent, borderWidth: 2, borderDash: [3,4], pointRadius: 3, tension: 0 },
+        { label: "Operating-cost change", data: piocSeries, borderColor: TOKEN.muted, backgroundColor: TOKEN.muted, borderWidth: 2, borderDash: [4,4], pointRadius: 3, tension: 0 },
+        { label: "Formula output (profit held flat, 1-yr)", data: cmsSeries, borderColor: TOKEN.accent, backgroundColor: TOKEN.accent, borderWidth: 2, borderDash: [3,4], pointRadius: 3, tension: 0 },
+        { label: "Board vote (1-yr)", data: voteSeries, borderColor: TOKEN.accent2, backgroundColor: TOKEN.accent2, borderWidth: 2.5, pointRadius: 4, tension: 0 },
       ]},
       options: {
         responsive: true, maintainAspectRatio: false,
         scales: {
           x: { grid: { color: TOKEN.grid } },
-          y: { beginAtZero: zeroAxis, grid: { color: TOKEN.grid }, ticks: { callback: v => v + "%" } },
+          y: { beginAtZero: true, grid: { color: TOKEN.grid }, ticks: { callback: v => v + "%" } },
         },
         plugins: { legend: { position: "bottom", labels: { boxWidth: 14, font: { size: 11 } } } },
       }
@@ -617,7 +587,6 @@
     destroyChart("freeze");
     const ctx = $("#chart-freeze");
     if (!ctx) return;
-    const zeroAxis = $("#zero-axis-noi").checked;
     const labels = noiSeries.map(p => `Yr ${p.year}`);
     const idx = base => noiSeries.map(p => (p[base] / noiSeries[0][base]) * 100);
     charts.freeze = new Chart(ctx, {
@@ -634,7 +603,7 @@
         responsive: true, maintainAspectRatio: false,
         scales: {
           x: { grid: { color: TOKEN.grid } },
-          y: { beginAtZero: zeroAxis, grid: { color: TOKEN.grid }, ticks: { callback: v => v + "" } },
+          y: { beginAtZero: true, grid: { color: TOKEN.grid }, ticks: { callback: v => v + "" } },
         },
         plugins: { legend: { display: false } },
       }
@@ -646,7 +615,6 @@
     renderHow();
     renderOther();
     renderFreeze();
-    drawVoteChart();
     drawRealRentChart();
     drawCompareChart();
     drawHistChart();
@@ -662,11 +630,6 @@
     $$("#freeze-inputs input, #freeze-inputs select").forEach(el => el.addEventListener("input", updateAll));
 
     $("#reset-how").addEventListener("click", () => { setHowDefaults(); updateAll(); });
-
-    ["zero-axis-vote","zero-axis-cmp","zero-axis-hist","zero-axis-noi","zero-axis-realrent"].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.addEventListener("change", updateAll);
-    });
 
     // Wire up "goto-tab" anchor links inside body copy.
     document.addEventListener("click", e => {

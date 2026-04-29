@@ -118,34 +118,14 @@
       <strong>Why three formulas?</strong> Each one treats landlord profit differently. <em>Net revenue</em> holds the dollar amount of profit flat year to year. <em>Inflation-adjusted</em> lets profit grow with inflation, so its real value doesn't erode. <em>Traditional</em> is the original 1969 formula, simpler than the other two, and looks at next year's expected costs as well as this year's. The board may consider any of them — but the staff's report is explicit that they're illustrative measures, not recommendations: the vote weighs many factors, including public testimony and the broader housing picture. <a class="src-link" href="https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2026/04/2026-PIOC.pdf" target="_blank" rel="noopener">2026 cost index, pp. 11–12</a>
     </div>
 
-    <h2 id="vote-vs-formula">The board's vote vs. the formula</h2>
-    <p>For ten consecutive years, the adopted 1-year increase has fallen below inflation — the longest such stretch in the board's history (per <a href="https://www.vitalcitynyc.org/a-housing-roadmap-for-new-yorks-next-mayor/" target="_blank" rel="noopener">Armlovich, former board member</a>). Three angles on that gap:</p>
-
-    <div class="chart-frame">
-      <div class="chart-head">
-        <div>
-          <div class="chart-title">Adopted vote vs. cost change · since 2019</div>
-          <div class="chart-subtitle">% change · 1-year renewal lease</div>
-        </div>
-        <div class="chart-controls">
-          <label><input type="checkbox" id="zero-axis-vote" checked /> Y-axis at zero</label>
-        </div>
-      </div>
-      <div class="chart-canvas-wrap"><canvas id="chart-vote"></canvas></div>
-      <div class="chart-legend">
-        <span><span class="swatch" style="background:var(--vc-cerulean);"></span>Board vote (1-yr)</span>
-        <span><span class="swatch" style="background:var(--vc-charcoal);"></span>Operating-cost change</span>
-      </div>
-    </div>
+    <h2 id="vote-vs-formula">The board's vote vs. inflation</h2>
+    <p>For ten consecutive years, the adopted 1-year increase has fallen below inflation — the longest such stretch in the board's history (per <a href="https://www.vitalcitynyc.org/a-housing-roadmap-for-new-yorks-next-mayor/" target="_blank" rel="noopener">Armlovich, former board member</a>).</p>
 
     <div class="chart-frame">
       <div class="chart-head">
         <div>
           <div class="chart-title">Below inflation, ten years running</div>
           <div class="chart-subtitle">1-year board vote minus inflation · negative bars = a real-dollar rent rollback</div>
-        </div>
-        <div class="chart-controls">
-          <label><input type="checkbox" id="zero-axis-realrent" checked /> Y-axis at zero</label>
         </div>
       </div>
       <div class="chart-canvas-wrap"><canvas id="chart-realrent"></canvas></div>
@@ -155,7 +135,7 @@
       </div>
     </div>
 
-    <p>For the formula-by-formula historical back-cast, see <a href="#" data-tab="compare" class="goto-tab">Compare</a>.</p>
+    <p>For the full historical back-cast — board vote, cost change, and the formula's output side by side — see <a href="#" data-tab="compare" class="goto-tab">Compare</a>.</p>
   </section>
 
   <!-- ===================== TAB 2: TWO STOCKS, NOT ONE ===================== -->
@@ -366,9 +346,6 @@
           <div class="chart-title">Modeled cash flow under a freeze</div>
           <div class="chart-subtitle">Index, year 0 = 100. Rent stays flat; costs grow at the rate above.</div>
         </div>
-        <div class="chart-controls">
-          <label><input type="checkbox" id="zero-axis-noi" checked /> Y-axis at zero</label>
-        </div>
       </div>
       <div class="chart-canvas-wrap"><canvas id="chart-freeze"></canvas></div>
       <div class="chart-legend">
@@ -401,23 +378,17 @@
           <div class="chart-title">What each formula yields under current inputs · 1-year lease</div>
           <div class="chart-subtitle">Edit inputs on previous tabs and these bars update.</div>
         </div>
-        <div class="chart-controls">
-          <label><input type="checkbox" id="zero-axis-cmp" checked /> Y-axis at zero</label>
-        </div>
       </div>
       <div class="chart-canvas-wrap" style="height:520px;"><canvas id="chart-compare"></canvas></div>
     </div>
 
     <h2>Historical back-cast · since 2019</h2>
-    <p>What the staff's "profit held flat" formula would have produced each year, plotted against what the board actually voted. The gap is not the formula being ignored — by statute the vote is a qualitative weighing of many factors. The gap is what those other factors did to the answer.</p>
+    <p>Three series side by side: how landlord costs moved, what the staff's "profit held flat" formula would have produced from those costs, and what the board actually voted. The gap between the formula and the vote is not the formula being ignored — by statute the vote is a qualitative weighing of many factors. The gap is what those other factors did to the answer.</p>
     <div class="chart-frame">
       <div class="chart-head">
         <div>
-          <div class="chart-title">Formula output vs. board vote · 2019–2025</div>
-          <div class="chart-subtitle">% increase, 1-year lease</div>
-        </div>
-        <div class="chart-controls">
-          <label><input type="checkbox" id="zero-axis-hist" checked /> Y-axis at zero</label>
+          <div class="chart-title">Cost change · formula output · board vote · 2019–2025</div>
+          <div class="chart-subtitle">% change, 1-year lease</div>
         </div>
       </div>
       <div class="chart-canvas-wrap"><canvas id="chart-hist"></canvas></div>
