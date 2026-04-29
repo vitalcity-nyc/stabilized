@@ -3,6 +3,11 @@
 // click-through citations next to each number.
 
 const SRC = {
+  slatkin: "https://www.vitalcitynyc.org/the-rent-is-too-damn-high-but-also-too-low/",
+  armlovich: "https://www.vitalcitynyc.org/a-housing-roadmap-for-new-yorks-next-mayor/",
+  cpc_brief: "https://communityp.com/research-publications/",
+  mamdani_appts: "https://www.nyc.gov/mayors-office/news/2026/02/mayor-mamdani-announces-six-appointees-to-the-rent-guidelines-bo",
+  rgb_meetings: "https://rentguidelinesboard.cityofnewyork.us/2026-meetings/",
   rsl: "https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2019/08/appendixa.pdf",
   admincode: "https://nycadmincode.readthedocs.io/t26/c04/",
   pioc2026: "https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2026/04/2026-PIOC.pdf",
@@ -181,8 +186,55 @@ const FREEZE_PRECEDENT = {
   source: SRC.aptchart,
 };
 
+// ---- Bifurcation: the stock isn't homogeneous (Slatkin, Vital City, 2025) ----
+// Buildings with mostly market-rate units (concentrated in core Manhattan) are
+// doing fine financially; 100%-stabilized prewar buildings (Bronx, outer
+// boroughs) face a long-running cost-vs-revenue squeeze. The "average" hides
+// both ends.
+const BIFURCATION = {
+  core_manhattan_pct_majority_market: 67,   // ~2/3 of core-Manhattan stabilized buildings are mostly market-rate
+  core_manhattan_pct_fully_stabilized: 16,  // only 16% are 100% rent-stabilized
+  bronx_pct_fully_stabilized: 75,
+  outside_core_manhattan_pct_fully_stabilized: 61, // % of stabilized UNITS in 100% stabilized buildings
+  core_2022_2023_revenue_growth: 12.2,
+  core_2022_2023_cost_growth: 3.4,
+  bronx_2022_2023_revenue_growth: 3.8,
+  bronx_2022_2023_cost_growth: 4.6,
+  decade_outside_core_expense_lead_pct: 26,  // 2013-2023, expenses grew 26% faster than income outside core Manhattan
+  source: "https://www.vitalcitynyc.org/the-rent-is-too-damn-high-but-also-too-low/",
+};
+
+// ---- Distress threshold (RGB Income & Expense Study, Table 8) ----
+// Buildings with operating costs >= rental income, before debt service.
+// Per Armlovich (Vital City, 2025), this share is ~10% of regulated buildings,
+// concentrated in fully rent-stabilized prewar buildings outside core Manhattan.
+const DISTRESS = {
+  share_at_or_below_breakeven: 10,         // % of regulated buildings with O&M ≥ rental income
+  scaled_units_at_risk: 100000,            // approx units across distressed buildings
+  cost_to_rehab_per_unit_low: 250000,      // $ per unit rehab cost (after deferred maintenance)
+  cost_to_rehab_per_unit_high: 500000,
+  one_year_increases_below_inflation: 10,  // 10 straight 1-yr increases below inflation per Armlovich
+  source_table8: "https://rentguidelinesboard.cityofnewyork.us/research/income-and-expense-study/",
+  source_armlovich: "https://www.vitalcitynyc.org/a-housing-roadmap-for-new-yorks-next-mayor/",
+};
+
+// ---- The 2026 cycle (the upcoming June 2026 vote, Order #58) ----
+const CYCLE_2026 = {
+  order_number: 58,
+  lease_period: "Oct 1, 2026 – Sept 30, 2027",
+  pioc_published: "April 9, 2026",
+  preliminary_range_one_year: [2, 5],
+  preliminary_range_two_year: [4, 7],
+  expected_final_vote: "Late June 2026",
+  mayor: "Mamdani (took office Jan 2026)",
+  appointees_announced: "February 2026",
+  source_meetings: "https://rentguidelinesboard.cityofnewyork.us/2026-meetings/",
+  source_appointees: "https://www.nyc.gov/mayors-office/news/2026/02/mayor-mamdani-announces-six-appointees-to-the-rent-guidelines-bo",
+};
+
 window.STABILIZED_DATA = {
   SRC, STATUTORY, PIOC_2026_COMPONENTS, PIOC_HISTORY, CORE_PIOC,
   COMMENSURATE_INPUTS, COMMENSURATE_OUTPUTS, BOARD_VOTES, STOCK,
   IE_SUMMARY, SUPPORTING, FREEZE_PRECEDENT,
+  BIFURCATION, DISTRESS, CYCLE_2026,
 };

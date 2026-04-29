@@ -3,11 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Stabilized — the rent guidelines board, by the numbers</title>
-  <meta name="description" content="An interactive look at how the New York City Rent Guidelines Board sets rent-stabilized lease increases — the law, the formula, and other defensible ways to do the math." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <title>Stabilized — the math behind the next Rent Guidelines Board vote</title>
+  <meta name="description" content="A forward-looking dashboard of the math, the formula, and the bifurcated stock the New York City Rent Guidelines Board will face in its June 2026 vote." />
+  <link rel="stylesheet" href="https://use.typekit.net/qqk2vto.css">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -16,10 +14,11 @@
   <div class="masthead-inner">
     <div>
       <div class="wordmark">Stabilized<span class="dot">.</span></div>
-      <div class="tagline">The rent guidelines board, by the numbers</div>
+      <div class="tagline">The math behind the next RGB vote</div>
     </div>
     <nav class="tabs" role="tablist" aria-label="Sections">
-      <button class="active" data-tab="how">How the board does it</button>
+      <button class="active" data-tab="vote">The vote ahead</button>
+      <button data-tab="two-stocks">Two stocks, not one</button>
       <button data-tab="other">Other formulas</button>
       <button data-tab="freeze">If it's a freeze</button>
       <button data-tab="compare">Compare</button>
@@ -30,37 +29,41 @@
 
 <main>
 
-  <!-- ===================== TAB 1: HOW THE BOARD DOES IT ===================== -->
-  <section class="tab active" id="tab-how" role="tabpanel">
-    <p class="kicker">By statute, by formula</p>
-    <h1 class="display">Costs rose 5.3 percent. The formula recommends 4.5. The board voted 3.0. Here is the math.</h1>
+  <!-- ===================== TAB 1: THE VOTE AHEAD ===================== -->
+  <section class="tab active" id="tab-vote" role="tabpanel">
+    <p class="kicker">Before the June 2026 vote · Order #58</p>
+    <h1 class="display">Costs rose 5.3 percent. The formula recommends 4.5. The mayor wants 0. Here is the math the board will face.</h1>
     <p class="lede">
-      The New York City Rent Guidelines Board sets the annual rent increase for roughly one million rent-stabilized apartments. The Rent Stabilization Law tells the board what to consider; the board's research staff translates that into a recommended number through a procedure called the <em>commensurate rent adjustment</em>. There are three current variants — and the board's vote rarely matches any of them.
+      In late June, the Rent Guidelines Board will set the rent increase for roughly one million stabilized apartments for the lease year beginning <strong>October 1, 2026</strong>. It will be the first such vote under <strong>Mayor Mamdani</strong>, who appointed <a href="https://www.nyc.gov/mayors-office/news/2026/02/mayor-mamdani-announces-six-appointees-to-the-rent-guidelines-bo" target="_blank" rel="noopener">six new members in February</a> and ran on a four-year rent freeze. The 2026 Price Index of Operating Costs, published April 9, says costs rose 5.3 percent. Below: the formula the staff actually uses, three other ways to read it, and what the math implies.
     </p>
 
     <div class="hero-card">
       <div>
-        <div class="hero-label">2026 PIOC, the headline cost change</div>
+        <div class="hero-label">2026 PIOC · the cost change driving the vote</div>
         <div class="hero-number"><span id="pioc-hero">5.3</span><span class="pct">%</span></div>
         <div class="hero-sub">
-          Operating costs in stabilized buildings rose by this much over the most recent measurement year.
+          Operating costs in stabilized buildings — taxes, labor, fuel, utilities, insurance, maintenance, admin — rose this much over the most recent measurement year.
           <br /><a class="src-link" href="https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2026/04/2026-PIOC.pdf" target="_blank" rel="noopener">2026 PIOC, p. 3</a>
         </div>
       </div>
       <div>
-        <div class="hero-label">What the formula recommends → 1-yr / 2-yr</div>
+        <div class="hero-label">What the staff formula recommends · 1-yr / 2-yr</div>
         <div class="hero-pair">
           <div>
             <div class="hero-number" id="hero-cpi-1">4.5<span class="pct">%</span></div>
-            <div class="hero-sub" style="font-size:13px;color:var(--ink-3);letter-spacing:0.06em;text-transform:uppercase;">CPI-adjusted NOI · 1-year lease</div>
+            <div class="hero-sub" style="font-size:11px;color:var(--vc-charcoal);letter-spacing:0.08em;text-transform:uppercase;font-weight:700;">CPI-adjusted NOI · 1-year</div>
           </div>
           <div>
-            <div class="hero-number" id="hero-cpi-2" style="color:var(--accent-2);">8.5<span class="pct">%</span></div>
-            <div class="hero-sub" style="font-size:13px;color:var(--ink-3);letter-spacing:0.06em;text-transform:uppercase;">CPI-adjusted NOI · 2-year lease</div>
+            <div class="hero-number compare" id="hero-cpi-2">8.5<span class="pct">%</span></div>
+            <div class="hero-sub" style="font-size:11px;color:var(--vc-charcoal);letter-spacing:0.08em;text-transform:uppercase;font-weight:700;">CPI-adjusted NOI · 2-year</div>
           </div>
         </div>
       </div>
     </div>
+
+    <p class="callout focal">
+      <strong>What we know about the upcoming vote.</strong> The board's preliminary range came in at 2–5 percent on 1-year leases, 4–7 percent on 2-year leases. The final vote is scheduled for <strong>late June 2026</strong>. Mayor Mamdani has <a href="https://www.vitalcitynyc.org/a-housing-roadmap-for-new-yorks-next-mayor/" target="_blank" rel="noopener">pledged a four-year freeze</a>; the board has voted ten consecutive years of below-inflation 1-year increases — the longest such stretch in its history. <a class="src-link" href="https://rentguidelinesboard.cityofnewyork.us/2026-meetings/" target="_blank" rel="noopener">2026 meetings</a>
+    </p>
 
     <h2>What the law actually requires</h2>
     <p>Under <a href="https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2019/08/appendixa.pdf" target="_blank" rel="noopener">Rent Stabilization Law §26-510(b)</a>, the board must consider, "among other things":</p>
@@ -69,34 +72,34 @@
 
     <h2>The actual formula: the commensurate rent adjustment</h2>
     <p>
-      The PIOC headline (this year, 5.3%) is <em>not</em> the rent increase. It is an index of operating-cost change. Staff translates it into a guideline-style number through three different formulas, each preserving net operating income (NOI) under different assumptions. Edit any input below and the formulas re-compute.
+      The PIOC headline (this year, 5.3 percent) is <em>not</em> the rent increase. It is an index of operating-cost change. Staff translates it into a guideline-style number through three formulas, each preserving net operating income (NOI) under different assumptions. Edit any input below; the formulas re-compute.
     </p>
 
     <div class="input-grid" id="how-inputs">
       <div class="input-row">
         <label for="in-pioc">PIOC change (%)</label>
         <input type="number" id="in-pioc" step="0.1" />
-        <div class="helper">Year-over-year operating-cost change · <a href="https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2026/04/2026-PIOC.pdf" target="_blank" rel="noopener">2026 PIOC</a></div>
+        <div class="helper">Operating-cost change · <a href="https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2026/04/2026-PIOC.pdf" target="_blank" rel="noopener">2026 PIOC</a></div>
       </div>
       <div class="input-row">
         <label for="in-pioc-proj">PIOC projection next year (%)</label>
         <input type="number" id="in-pioc-proj" step="0.1" />
-        <div class="helper">Used by the traditional formula · <a href="https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2026/04/2026-PIOC.pdf" target="_blank" rel="noopener">2026 PIOC, p. 11</a></div>
+        <div class="helper">Used by traditional formula</div>
       </div>
       <div class="input-row">
         <label for="in-om">O&amp;M share of revenue (%)</label>
         <input type="number" id="in-om" step="0.1" />
-        <div class="helper">Operating-cost share · <a href="https://rentguidelinesboard.cityofnewyork.us/research/income-and-expense-study/" target="_blank" rel="noopener">Income &amp; Expense Study</a></div>
+        <div class="helper">Operating-cost share · <a href="https://rentguidelinesboard.cityofnewyork.us/research/income-and-expense-study/" target="_blank" rel="noopener">I&amp;E Study</a></div>
       </div>
       <div class="input-row">
         <label for="in-cpi">CPI all-items-less-shelter (%)</label>
         <input type="number" id="in-cpi" step="0.1" />
-        <div class="helper">Used by CPI-adjusted NOI · <a href="https://www.bls.gov/regions/new-york-new-jersey/news-release/consumerpriceindex_newyorkarea.htm" target="_blank" rel="noopener">BLS CPI NY</a></div>
+        <div class="helper">CPI-adjusted NOI input · <a href="https://www.bls.gov/regions/new-york-new-jersey/news-release/consumerpriceindex_newyorkarea.htm" target="_blank" rel="noopener">BLS NY</a></div>
       </div>
       <div class="input-row">
         <label for="in-l1">1-year lease share (%)</label>
         <input type="number" id="in-l1" step="0.1" />
-        <div class="helper">From HCR registrations · <a href="https://hcr.ny.gov/" target="_blank" rel="noopener">NYS HCR</a></div>
+        <div class="helper">From <a href="https://hcr.ny.gov/" target="_blank" rel="noopener">HCR registrations</a></div>
       </div>
       <div class="input-row">
         <label for="in-l2">2-year lease share (%)</label>
@@ -105,25 +108,23 @@
       </div>
     </div>
     <div class="input-controls">
-      <div style="font-size:12px;color:var(--ink-3);">Defaults are the staff's published 2026 inputs.</div>
+      <div style="font-size:12px;color:var(--vc-charcoal);font-weight:700;letter-spacing:0.04em;text-transform:uppercase;">Defaults are the staff's published 2026 inputs</div>
       <button class="reset-btn" id="reset-how">Reset to staff inputs</button>
     </div>
 
-    <div class="formula-grid" id="how-formulas">
-      <!-- populated by app.js -->
-    </div>
+    <div class="formula-grid" id="how-formulas"><!-- populated by app.js --></div>
 
     <div class="callout">
       <strong>Why three formulas?</strong> Each makes a different assumption about NOI. <em>Net revenue</em> holds nominal NOI constant. <em>CPI-adjusted NOI</em> grows NOI with inflation. <em>Traditional</em> is the original 1969 formula and uses a two-year cost projection but ignores the lease mix. The board can pick from these — or land somewhere else entirely. <a class="src-link" href="https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2026/04/2026-PIOC.pdf" target="_blank" rel="noopener">2026 PIOC, pp. 11–12</a>
     </div>
 
     <h2>The board's vote vs. the formula</h2>
-    <p>For every recent year, the adopted increase has landed below the staff commensurates. The chart shows the post-HSTPA arc.</p>
+    <p>For ten consecutive years, the adopted 1-year increase has fallen below inflation — the longest such stretch in RGB history (per <a href="https://www.vitalcitynyc.org/a-housing-roadmap-for-new-yorks-next-mayor/" target="_blank" rel="noopener">Armlovich, RGB member</a>). The post-HSTPA arc:</p>
     <div class="chart-frame">
       <div class="chart-head">
         <div>
-          <div class="chart-title">Adopted increases vs. commensurate guidance · post-HSTPA</div>
-          <div class="chart-subtitle">% change, 1-year renewal lease</div>
+          <div class="chart-title">Adopted vote vs. PIOC, post-HSTPA</div>
+          <div class="chart-subtitle">% change · 1-year renewal lease</div>
         </div>
         <div class="chart-controls">
           <label><input type="checkbox" id="zero-axis-vote" checked /> Y-axis at zero</label>
@@ -131,18 +132,109 @@
       </div>
       <div class="chart-canvas-wrap"><canvas id="chart-vote"></canvas></div>
       <div class="chart-legend">
-        <span><span class="swatch" style="background:var(--accent-2);"></span>Board vote (1-yr)</span>
-        <span><span class="swatch" style="background:var(--muted);"></span>PIOC (cost change)</span>
+        <span><span class="swatch" style="background:var(--vc-cerulean);"></span>Board vote (1-yr)</span>
+        <span><span class="swatch" style="background:var(--vc-charcoal);"></span>PIOC</span>
       </div>
     </div>
   </section>
 
-  <!-- ===================== TAB 2: OTHER FORMULAS ===================== -->
+  <!-- ===================== TAB 2: TWO STOCKS, NOT ONE ===================== -->
+  <section class="tab" id="tab-two-stocks" role="tabpanel">
+    <p class="kicker">The averages hide the story</p>
+    <h1 class="display">Two stocks, not one. The same vote affects them very differently.</h1>
+    <p class="lede">
+      "Rent-stabilized building" lumps together a recently built mostly market-rate tower in core Manhattan with a 100-percent stabilized prewar walk-up in the Bronx. RGB decisions land identically on both. Their finances do not. <a href="https://www.vitalcitynyc.org/the-rent-is-too-damn-high-but-also-too-low/" target="_blank" rel="noopener">Howard Slatkin</a> and <a href="https://www.vitalcitynyc.org/a-housing-roadmap-for-new-yorks-next-mayor/" target="_blank" rel="noopener">Alex Armlovich</a> have shown that the average <em>masks</em> the bifurcation: one group is fine, the other is sliding toward distress.
+    </p>
+
+    <div class="pullquote">
+      Rent-stabilized buildings are doing well financially, as long as you're talking about buildings that mostly aren't rent-stabilized.
+      <cite>Howard Slatkin · Vital City</cite>
+    </div>
+
+    <h3>How concentrated is the fully-stabilized stock?</h3>
+    <div class="stat-grid">
+      <div class="stat-card focal">
+        <div class="stat-label">Bronx · share of stabilized buildings that are 100% stabilized</div>
+        <div class="stat-value">75%</div>
+        <div class="stat-sub">Mostly prewar walk-ups; revenue is fully governed by the RGB cap.</div>
+        <div class="stat-src"><a class="src-link" href="https://www.vitalcitynyc.org/the-rent-is-too-damn-high-but-also-too-low/" target="_blank" rel="noopener">Slatkin · Vital City</a></div>
+      </div>
+      <div class="stat-card focal">
+        <div class="stat-label">Outside core Manhattan · units in 100%-stabilized buildings</div>
+        <div class="stat-value">61%</div>
+        <div class="stat-sub">Most of the truly stabilized stock lives outside Manhattan's south end.</div>
+        <div class="stat-src"><a class="src-link" href="https://www.vitalcitynyc.org/the-rent-is-too-damn-high-but-also-too-low/" target="_blank" rel="noopener">Slatkin · Vital City</a></div>
+      </div>
+      <div class="stat-card compare">
+        <div class="stat-label">Core Manhattan · share of stabilized buildings that are 100% stabilized</div>
+        <div class="stat-value">16%</div>
+        <div class="stat-sub">Most "stabilized" buildings here are majority market-rate, often via 421-a.</div>
+        <div class="stat-src"><a class="src-link" href="https://www.vitalcitynyc.org/the-rent-is-too-damn-high-but-also-too-low/" target="_blank" rel="noopener">Slatkin · Vital City</a></div>
+      </div>
+      <div class="stat-card compare">
+        <div class="stat-label">Core Manhattan · share majority market-rate</div>
+        <div class="stat-value">67%</div>
+        <div class="stat-sub">Two-thirds of "stabilized" buildings here are mostly market-rate units.</div>
+        <div class="stat-src"><a class="src-link" href="https://www.vitalcitynyc.org/the-rent-is-too-damn-high-but-also-too-low/" target="_blank" rel="noopener">Slatkin · Vital City</a></div>
+      </div>
+    </div>
+
+    <h3>Revenue vs. cost growth, 2022 → 2023</h3>
+    <p>The averaged number says revenues are outpacing costs. The disaggregated number says: only in the buildings that mostly aren't rent-stabilized.</p>
+    <table class="data">
+      <thead>
+        <tr><th>Geography</th><th class="num">Median revenue growth</th><th class="num">Median cost growth</th><th class="num">Net</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Core Manhattan</td><td class="num">+12.2%</td><td class="num">+3.4%</td><td class="num" style="color:var(--vc-cerulean);font-weight:700;">+8.8 pts</td></tr>
+        <tr><td>Bronx</td><td class="num">+3.8%</td><td class="num">+4.6%</td><td class="num" style="color:var(--vc-magenta);font-weight:700;">−0.8 pts</td></tr>
+        <tr><td>Outside core Manhattan (citywide)</td><td class="num">below cost growth</td><td class="num">above revenue</td><td class="num" style="color:var(--vc-magenta);font-weight:700;">negative</td></tr>
+      </tbody>
+      <caption>Source: <a href="https://www.vitalcitynyc.org/the-rent-is-too-damn-high-but-also-too-low/" target="_blank" rel="noopener">Slatkin, Vital City</a>, citing RGB Income &amp; Expense Study.</caption>
+    </table>
+
+    <p>Pull the time horizon out a decade. Outside core Manhattan, expenses grew <strong>26 percent faster than income</strong> from 2013 to 2023. That is what disinvestment looks like.</p>
+
+    <h3>The distress threshold · RGB I&amp;E Table 8</h3>
+    <p>The RGB's own Income &amp; Expense report tracks the share of buildings whose operating costs equal or exceed rental income — before debt service. Per RGB member <a href="https://www.vitalcitynyc.org/a-housing-roadmap-for-new-yorks-next-mayor/" target="_blank" rel="noopener">Alex Armlovich</a>:</p>
+
+    <div class="stat-grid">
+      <div class="stat-card focal">
+        <div class="stat-label">Regulated buildings with O&amp;M ≥ rental income (2025)</div>
+        <div class="stat-value">10%</div>
+        <div class="stat-sub">Already underwater on operations alone — before mortgage payments.</div>
+        <div class="stat-src"><a class="src-link" href="https://rentguidelinesboard.cityofnewyork.us/research/income-and-expense-study/" target="_blank" rel="noopener">RGB I&amp;E Table 8</a></div>
+      </div>
+      <div class="stat-card focal">
+        <div class="stat-label">Units in those distressed buildings</div>
+        <div class="stat-value">~100K</div>
+        <div class="stat-sub">Concentrated in fully-stabilized prewar buildings outside core Manhattan.</div>
+        <div class="stat-src"><a class="src-link" href="https://www.vitalcitynyc.org/a-housing-roadmap-for-new-yorks-next-mayor/" target="_blank" rel="noopener">Armlovich · Vital City</a></div>
+      </div>
+      <div class="stat-card focal">
+        <div class="stat-label">Cost to rehab once a building falls behind</div>
+        <div class="stat-value">$250K – $500K</div>
+        <div class="stat-sub">Per unit, after years of deferred maintenance push it into in-rem foreclosure.</div>
+        <div class="stat-src"><a class="src-link" href="https://www.vitalcitynyc.org/a-housing-roadmap-for-new-yorks-next-mayor/" target="_blank" rel="noopener">Armlovich · Vital City</a></div>
+      </div>
+      <div class="stat-card focal">
+        <div class="stat-label">Consecutive 1-year increases below inflation</div>
+        <div class="stat-value">10 yrs</div>
+        <div class="stat-sub">Longest real-dollar rollback in RGB history.</div>
+        <div class="stat-src"><a class="src-link" href="https://www.vitalcitynyc.org/a-housing-roadmap-for-new-yorks-next-mayor/" target="_blank" rel="noopener">Armlovich · Vital City</a></div>
+      </div>
+    </div>
+
+    <h3>Differential guidelines · what the formulas can't see</h3>
+    <p>Because the RGB votes one number per lease type for the whole city, every formula on this site — official or alternate — applies the same increase to a fully-stabilized prewar walk-up in the Bronx and a mostly-market 421-a tower in Hudson Yards. Armlovich proposes a fix the board can adopt by rulemaking: tier the guideline by building condition, using the existing <strong>Alternative Enforcement Program (AEP)</strong> threshold (worst 3–5% of regulated stock) to deny increases to chronic-violator buildings while letting compliant buildings receive cost-justified adjustments. That kind of structural change is outside this calculator's scope, but the bifurcation analysis above is the case for it.</p>
+  </section>
+
+  <!-- ===================== TAB 3: OTHER FORMULAS ===================== -->
   <section class="tab" id="tab-other" role="tabpanel">
     <p class="kicker">Same law, different lenses</p>
     <h1 class="display">Other ways to do the math — all defensible under §26-510(b).</h1>
     <p class="lede">
-      The statute names four economic factors and CPI. The staff translates them through one specific NOI-preserving lens. But each factor admits more than one measurement. Here are alternates — owner-side, tenant-side, and hybrid — that use the same legal criteria with different weights and indices.
+      The statute names four economic factors and CPI. The staff translates them through one specific NOI-preserving lens. Each factor admits more than one measurement. Here are alternates — owner-side, tenant-side, hybrid — that use the same legal criteria with different weights and indices.
     </p>
 
     <div class="input-grid" id="other-inputs">
@@ -174,33 +266,37 @@
       </div>
     </div>
 
-    <h3>Owner-side variants — different ways to measure costs</h3>
+    <h3>Owner-side · different ways to measure costs</h3>
     <div class="formula-grid" id="owner-formulas"></div>
 
-    <h3>Tenant-side variants — different ways to measure ability to pay</h3>
+    <h3>Tenant-side · different ways to measure ability to pay</h3>
     <div class="formula-grid" id="tenant-formulas"></div>
 
-    <h3>Hybrid variants — guardrails and caps</h3>
+    <h3>Hybrid · guardrails and caps</h3>
     <div class="formula-grid" id="hybrid-formulas"></div>
   </section>
 
-  <!-- ===================== TAB 3: FREEZE ===================== -->
+  <!-- ===================== TAB 4: FREEZE ===================== -->
   <section class="tab" id="tab-freeze" role="tabpanel">
-    <p class="kicker">If the board votes 0%</p>
-    <h1 class="display">A forced rent freeze, modeled.</h1>
+    <p class="kicker">A four-year freeze, modeled</p>
+    <h1 class="display">If the board votes 0 percent — and keeps voting it — what breaks first?</h1>
     <p class="lede">
-      A 0% guideline is on the table in the 2026 mayoral race and has been before — twice, in 2015 and 2016, on 1-year leases. The math below shows what one or more years of freeze would mean for tenant savings, owner net operating income, and building distress, holding the published RGB cost trajectory constant.
+      Mayor Mamdani <a href="https://www.vitalcitynyc.org/a-housing-roadmap-for-new-yorks-next-mayor/" target="_blank" rel="noopener">campaigned on a four-year freeze</a>. The math below shows what that would mean for tenant savings, owner net operating income, and the share of buildings tipped into distress, holding the published 2026 PIOC cost trajectory constant. <strong>The 2015–16 board freezes happened in a year operating costs <em>fell</em> 1.2 percent.</strong> A 2026–29 freeze would land on costs rising 5 percent a year.
     </p>
+
+    <div class="callout focal">
+      <strong>Per Armlovich (RGB member, Vital City):</strong> "The financially distressed 10% of regulated buildings are overwhelmingly fully rent-stabilized prewar buildings in the outer boroughs… Without cost-flattening reforms, four consecutive rent freezes amid costs compounding at a typical 3% annual rate risk re-creating by regulatory fiat the mass tax foreclosures of the 1980s." <a class="src-link" href="https://www.vitalcitynyc.org/a-housing-roadmap-for-new-yorks-next-mayor/" target="_blank" rel="noopener">read the essay</a>
+    </div>
 
     <div class="input-grid" id="freeze-inputs">
       <div class="input-row">
         <label for="f-years">Freeze years in a row</label>
-        <input type="range" id="f-years" min="1" max="5" step="1" value="1" />
-        <div class="helper" id="f-years-val">1 year</div>
+        <input type="range" id="f-years" min="1" max="5" step="1" value="4" />
+        <div class="helper" id="f-years-val">4 years</div>
       </div>
       <div class="input-row">
         <label for="f-twoyear">Also freeze 2-year leases?</label>
-        <select id="f-twoyear" style="font-family:var(--mono);font-size:14px;border:1px solid var(--rule);background:var(--paper);padding:8px 10px;border-radius:3px;">
+        <select id="f-twoyear">
           <option value="freeze" selected>Yes — freeze both</option>
           <option value="commensurate">No — set 2-yr at commensurate</option>
         </select>
@@ -213,7 +309,6 @@
       <div class="input-row">
         <label for="f-rent">Median monthly stabilized rent ($)</label>
         <input type="number" id="f-rent" step="50" value="1500" />
-        <div class="helper">Used for tenant-savings math</div>
       </div>
       <div class="input-row">
         <label for="f-units">Stabilized units citywide</label>
@@ -223,28 +318,27 @@
       <div class="input-row">
         <label for="f-noi">Starting NOI margin (%)</label>
         <input type="number" id="f-noi" step="0.1" value="36.4" />
-        <div class="helper">From <a href="https://rentguidelinesboard.cityofnewyork.us/research/income-and-expense-study/" target="_blank" rel="noopener">RGB I&amp;E Study</a></div>
+        <div class="helper">From <a href="https://rentguidelinesboard.cityofnewyork.us/research/income-and-expense-study/" target="_blank" rel="noopener">RGB I&amp;E</a></div>
       </div>
       <div class="input-row">
         <label for="f-leverage">Typical leverage (LTV %)</label>
         <input type="number" id="f-leverage" step="1" value="65" />
-        <div class="helper">Used to model DSCR stress</div>
       </div>
       <div class="input-row">
         <label for="f-dscr0">Starting DSCR</label>
         <input type="number" id="f-dscr0" step="0.05" value="1.25" />
-        <div class="helper">Lender minimum is typically 1.20x</div>
+        <div class="helper">Lender minimum: 1.20x</div>
       </div>
     </div>
 
     <h3>Tenant-side · what households save</h3>
-    <div class="freeze-grid" id="freeze-tenant"></div>
+    <div class="stat-grid" id="freeze-tenant"></div>
 
     <h3>Owner-side · NOI compression and distress</h3>
-    <div class="freeze-grid" id="freeze-owner"></div>
+    <div class="stat-grid" id="freeze-owner"></div>
 
-    <h3>System-level effects</h3>
-    <div class="freeze-grid" id="freeze-system"></div>
+    <h3>System-level · what tips over</h3>
+    <div class="stat-grid" id="freeze-system"></div>
 
     <div class="chart-frame">
       <div class="chart-head">
@@ -258,34 +352,34 @@
       </div>
       <div class="chart-canvas-wrap"><canvas id="chart-freeze"></canvas></div>
       <div class="chart-legend">
-        <span><span class="swatch" style="background:var(--accent-2);"></span>Revenue (held flat)</span>
-        <span><span class="swatch" style="background:var(--accent);"></span>Operating costs (grow at PIOC)</span>
-        <span><span class="swatch" style="background:var(--warn);"></span>Net operating income</span>
+        <span><span class="swatch" style="background:var(--vc-cerulean);"></span>Revenue</span>
+        <span><span class="swatch" style="background:var(--vc-orange);"></span>Operating costs</span>
+        <span><span class="swatch" style="background:var(--vc-magenta);"></span>Net operating income</span>
       </div>
     </div>
 
-    <h3>Historical precedent: the 2015–16 freezes</h3>
+    <h3>Historical precedent · the 2015–16 freezes</h3>
     <p>
-      The board has voted a 0% guideline on 1-year leases twice — under Order #47 (lease year 2015–16) and Order #48 (2016–17), both with the 2-year lease still set at 2%. These remain the only freezes in the board's history; <a href="https://rentguidelinesboard.cityofnewyork.us/research/income-and-expense-study/" target="_blank" rel="noopener">RGB Income &amp; Expense Studies</a> covering those years are the natural-experiment evidence.
+      The board has voted a 0% guideline on 1-year leases twice — under Order #47 (2015–16) and Order #48 (2016–17). Per Armlovich, those freezes were aligned with the data: the 2016 PIOC showed operating costs <em>fell</em> 1.2 percent that year, primarily energy. A 2026 freeze would happen under cost growth of <strong>+5.3 percent</strong>, an entirely different macro condition. <a class="src-link" href="https://www.vitalcitynyc.org/a-housing-roadmap-for-new-yorks-next-mayor/" target="_blank" rel="noopener">Armlovich · Vital City</a>
     </p>
 
     <div class="callout">
-      <strong>Limits of this model.</strong> It covers the rent-stabilized stock only. Effects on new construction are minimal because post-1974 / non-tax-benefit buildings aren't in this system. After HSTPA 2019 closed most exit ramps (high-rent decontrol, vacancy bonuses), conversions and warehousing dynamics changed materially. Capital improvement and individual apartment improvement increases continue under a guideline freeze. <a class="src-link" href="https://www.nysenate.gov/legislation/bills/2019/s6458" target="_blank" rel="noopener">HSTPA 2019</a>
+      <strong>Limits of this model.</strong> It applies to the rent-stabilized stock as a single average. Per the <a href="#" data-tab="two-stocks" class="goto-tab">bifurcation analysis</a>, the distressed share is concentrated in fully-stabilized prewar buildings outside core Manhattan, while majority-market-rate buildings in core Manhattan are not at this margin. The systemic effects under a freeze land disproportionately on the former. Also: this model excludes capital-improvement (MCI) and individual-apartment-improvement (IAI) increases, which continue under a guideline freeze. <a class="src-link" href="https://www.nysenate.gov/legislation/bills/2019/s6458" target="_blank" rel="noopener">HSTPA 2019</a>
     </div>
   </section>
 
-  <!-- ===================== TAB 4: COMPARE ===================== -->
+  <!-- ===================== TAB 5: COMPARE ===================== -->
   <section class="tab" id="tab-compare" role="tabpanel">
     <p class="kicker">Side by side</p>
     <h1 class="display">Every formula, this year.</h1>
     <p class="lede">
-      Each bar is the same cost data run through a different defensible formula. The board's own three are at top. The board's actual vote sits at the bottom, for reference.
+      Each bar is the same cost data run through a different defensible formula. The board's own three are at top. The 2025–26 board vote (Order #57) sits as a reference; the 2026–27 vote (Order #58) is what this year's debate is about.
     </p>
     <div class="chart-frame">
       <div class="chart-head">
         <div>
-          <div class="chart-title">What each formula yields under current inputs · 1-year renewal lease</div>
-          <div class="chart-subtitle">Edit inputs on the previous tabs and these bars update.</div>
+          <div class="chart-title">What each formula yields under current inputs · 1-year lease</div>
+          <div class="chart-subtitle">Edit inputs on previous tabs and these bars update.</div>
         </div>
         <div class="chart-controls">
           <label><input type="checkbox" id="zero-axis-cmp" checked /> Y-axis at zero</label>
@@ -295,11 +389,11 @@
     </div>
 
     <h2>Historical back-cast · post-HSTPA</h2>
-    <p>What the official commensurate formulas would have implied each year, plotted against what the board actually voted.</p>
+    <p>What the official commensurate would have implied each year, plotted against what the board actually voted.</p>
     <div class="chart-frame">
       <div class="chart-head">
         <div>
-          <div class="chart-title">Commensurates vs. adopted vote · 2019–2025</div>
+          <div class="chart-title">Commensurate vs. adopted vote · 2019–2025</div>
           <div class="chart-subtitle">% increase, 1-year lease</div>
         </div>
         <div class="chart-controls">
@@ -310,15 +404,15 @@
     </div>
   </section>
 
-  <!-- ===================== TAB 5: METHODOLOGY ===================== -->
+  <!-- ===================== TAB 6: METHODOLOGY ===================== -->
   <section class="tab" id="tab-method" role="tabpanel">
     <div class="methodology">
       <p class="kicker">Sources, math, assumptions</p>
       <h1 class="display">Methodology — show your work.</h1>
-      <p>This dashboard reproduces the New York City Rent Guidelines Board's own published formulas using the staff's own published inputs, then adds a set of alternative formulas grounded in the same statutory criteria. Every number has a source link. No calculation is hidden.</p>
+      <p>This dashboard reproduces the New York City Rent Guidelines Board's own published formulas using the staff's own published inputs, then adds alternative formulas grounded in the same statutory criteria, and surfaces independent analyses of the bifurcated stock and the financial distress threshold. Every number has a source link. No calculation is hidden.</p>
 
       <h2>The statutory frame</h2>
-      <p>The board operates under <a href="https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2019/08/appendixa.pdf" target="_blank" rel="noopener">Rent Stabilization Law §26-510</a> (also at <a href="https://nycadmincode.readthedocs.io/t26/c04/" target="_blank" rel="noopener">NYC Admin Code Title 26 Ch. 4</a>). Subdivision (b) directs the board to consider real estate taxes; gross operating and maintenance costs (insurance, governmental fees, fuel, labor); the cost and availability of financing; the overall supply of housing and overall vacancy rates; CPI; and "such other data as may be made available." The dashboard maps each of these to the RGB report that measures it.</p>
+      <p>The board operates under <a href="https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2019/08/appendixa.pdf" target="_blank" rel="noopener">Rent Stabilization Law §26-510</a> (also at <a href="https://nycadmincode.readthedocs.io/t26/c04/" target="_blank" rel="noopener">NYC Admin Code Title 26 Ch. 4</a>). Subdivision (b) directs the board to consider real estate taxes; gross operating and maintenance costs (insurance, governmental fees, fuel, labor); cost and availability of financing; the overall supply of housing and overall vacancy rates; CPI; and "such other data as may be made available."</p>
 
       <h2>The official three formulas</h2>
       <p>From the <a href="https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2026/04/2026-PIOC.pdf" target="_blank" rel="noopener">2026 PIOC report (pp. 11–12, endnotes 8–11)</a>:</p>
@@ -329,27 +423,30 @@
       </ol>
 
       <h2>The alternates</h2>
-      <p>All alternates use the same statutory frame and the same year's inputs.</p>
       <ul>
         <li><strong>Pure PIOC pass-through</strong> · no NOI translation; pass through PIOC% directly, splitting 1/2-year by lease mix.</li>
-        <li><strong>Small-building weighted</strong> · proxy that re-weights the PIOC components toward heavier insurance and labor exposure of buildings with 19 or fewer units. Implemented here by scaling the headline PIOC up by a small-building multiplier; replace with re-weighted PIOC components when the next I&amp;E study publishes them.</li>
-        <li><strong>Capital-inclusive</strong> · adds an annual capital-replacement reserve component (default 1.5% of revenue) to the operating-cost basket before applying the net-revenue formula.</li>
-        <li><strong>Wage-indexed</strong> · increase set equal to the latest BLS QCEW NYC private-sector average wage growth, splitting into 1/2-year leases at the commensurate ratio (2-year ≈ 1-year × commensurate-ratio).</li>
-        <li><strong>Renter-income-indexed</strong> · increase set equal to ACS median renter household income growth.</li>
-        <li><strong>Rent-burden-stable</strong> · solves for the increase that keeps median rent-to-income constant given the renter-income input.</li>
-        <li><strong>Renter CPI ex-shelter</strong> · increase set equal to BLS CPI all-items-less-shelter for the NY area.</li>
-        <li><strong>Min/max guardrails</strong> · official commensurate, capped above by QCEW wage growth and floored below by zero.</li>
-        <li><strong>Affordability cap</strong> · the official commensurate, capped at the lower of (a) commensurate or (b) renter-income growth.</li>
+        <li><strong>Small-building weighted</strong> · proxy that re-weights toward heavier insurance and labor exposure of buildings with 19 or fewer units.</li>
+        <li><strong>Capital-inclusive</strong> · adds an annual capital-replacement reserve (default 1.5% of revenue) to the operating-cost basket.</li>
+        <li><strong>Wage-indexed</strong> · BLS QCEW NYC private-sector average wage growth.</li>
+        <li><strong>Renter-income-indexed</strong> · ACS median renter household income growth.</li>
+        <li><strong>Rent-burden-stable</strong> · the increase that keeps median rent-to-income constant.</li>
+        <li><strong>Renter CPI ex-shelter</strong> · BLS CPI all-items-less-shelter for the NY area.</li>
+        <li><strong>Min/max guardrails</strong> · official commensurate, capped above by wage growth and floored below at zero.</li>
+        <li><strong>Affordability cap</strong> · official commensurate, capped at renter income growth.</li>
       </ul>
 
+      <h2>The bifurcation analysis</h2>
+      <p>The "Two stocks, not one" tab summarizes <a href="https://www.vitalcitynyc.org/the-rent-is-too-damn-high-but-also-too-low/" target="_blank" rel="noopener">Howard Slatkin's 2025 essay</a> for Vital City and <a href="https://www.vitalcitynyc.org/a-housing-roadmap-for-new-yorks-next-mayor/" target="_blank" rel="noopener">Alex Armlovich's roadmap</a>. Both draw on RGB Income &amp; Expense Study micro-data, in particular the per-borough revenue/cost panels and Table 8 on the share of buildings with operating costs at or above rental income. The percentages are reproduced as published; their underlying year is 2022–2023 for the revenue/cost growth panel, 2025 for the I&amp;E Table 8 distress share.</p>
+
       <h2>The freeze module</h2>
-      <p>For each modeled freeze year, revenue is held flat, operating costs grow at the user-supplied rate (default = current PIOC), and NOI is recomputed. DSCR is approximated from leverage: starting NOI per dollar of revenue × (1 / (LTV × cap-rate-implied debt service)) — the user's starting DSCR is rebased against the trajectory. Tenant savings are aggregate dollars not paid versus the counterfactual rent path that the chosen formula would have produced. The historical precedent panel cites Orders #47 and #48 (1-year freezes in 2015–16 and 2016–17).</p>
+      <p>For each modeled freeze year, revenue is held flat, operating costs grow at the user-supplied rate (default = current PIOC), and NOI is recomputed. DSCR is approximated from leverage. Tenant savings are aggregate dollars not paid versus the counterfactual rent path that the chosen formula would have produced. The "100,000 units at risk" figure is Armlovich's, derived from RGB Table 8's ~10% distressed share applied to the regulated stock.</p>
 
       <h2>What this dashboard does not do</h2>
       <ul>
-        <li>It does not estimate <em>unit-level</em> rent. DHCR registered rents are confidential; only building-level unit counts are publicly available (via DOF tax bills, scraped by <a href="https://github.com/talos/nyc-stabilization-unit-counts" target="_blank" rel="noopener">taxbills.nyc</a>).</li>
-        <li>It does not model effects on new construction. The stabilized stock is overwhelmingly pre-1974 plus tax-benefit buildings; new construction sits outside the system except via 421-a / 485-x.</li>
-        <li>It does not model post-HSTPA legal pathways for deregulation, capital improvement increases (MCI / IAI), or preferential rent dynamics — those are separate from the guideline.</li>
+        <li>It does not estimate <em>unit-level</em> rent. DHCR registered rents are confidential.</li>
+        <li>It does not model effects on new construction. The stabilized stock is overwhelmingly pre-1974 plus tax-benefit buildings.</li>
+        <li>It does not model post-HSTPA legal pathways for deregulation, capital-improvement (MCI / IAI) increases, or preferential rent dynamics.</li>
+        <li>It applies one citywide guideline; per the bifurcation tab, that is the board's actual posture, but the math hides the tail of the distribution.</li>
       </ul>
 
       <h2>Source list</h2>
@@ -358,13 +455,17 @@
         <li><a href="https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2025/04/2025-PIOC.pdf" target="_blank" rel="noopener">2025 Price Index of Operating Costs</a></li>
         <li><a href="https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2025/07/RGB-Apartment-Chart.pdf" target="_blank" rel="noopener">RGB Apartment Orders #1 through #57 chart</a></li>
         <li><a href="https://rentguidelinesboard.cityofnewyork.us/research/" target="_blank" rel="noopener">RGB Research Reports archive</a></li>
-        <li><a href="https://rentguidelinesboard.cityofnewyork.us/research/income-and-expense-study/" target="_blank" rel="noopener">Income &amp; Expense Study</a></li>
+        <li><a href="https://rentguidelinesboard.cityofnewyork.us/research/income-and-expense-study/" target="_blank" rel="noopener">Income &amp; Expense Study (Table 8)</a></li>
         <li><a href="https://rentguidelinesboard.cityofnewyork.us/research/income-and-affordability-study/" target="_blank" rel="noopener">Income &amp; Affordability Study</a></li>
         <li><a href="https://rentguidelinesboard.cityofnewyork.us/research/housing-supply-report/" target="_blank" rel="noopener">Housing Supply Report</a></li>
         <li><a href="https://rentguidelinesboard.cityofnewyork.us/research/mortgage-survey/" target="_blank" rel="noopener">Mortgage Survey Report</a></li>
+        <li><a href="https://rentguidelinesboard.cityofnewyork.us/2026-meetings/" target="_blank" rel="noopener">RGB 2026 Meetings &amp; Hearings</a></li>
         <li><a href="https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2019/08/appendixa.pdf" target="_blank" rel="noopener">Rent Stabilization Law §26-510</a></li>
         <li><a href="https://www.nysenate.gov/legislation/bills/2019/s6458" target="_blank" rel="noopener">Housing Stability and Tenant Protection Act of 2019</a></li>
-        <li><a href="https://www.bls.gov/regions/new-york-new-jersey/news-release/consumerpriceindex_newyorkarea.htm" target="_blank" rel="noopener">BLS · CPI New York-Newark-Jersey City</a></li>
+        <li><a href="https://www.vitalcitynyc.org/the-rent-is-too-damn-high-but-also-too-low/" target="_blank" rel="noopener">Howard Slatkin · "The rent is too damn high — but also too low"</a> · Vital City</li>
+        <li><a href="https://www.vitalcitynyc.org/a-housing-roadmap-for-new-yorks-next-mayor/" target="_blank" rel="noopener">Alex Armlovich · "A housing roadmap for New York's next mayor"</a> · Vital City</li>
+        <li><a href="https://www.nyc.gov/mayors-office/news/2026/02/mayor-mamdani-announces-six-appointees-to-the-rent-guidelines-bo" target="_blank" rel="noopener">Mayor Mamdani · RGB appointees, Feb 2026</a></li>
+        <li><a href="https://www.bls.gov/regions/new-york-new-jersey/news-release/consumerpriceindex_newyorkarea.htm" target="_blank" rel="noopener">BLS · CPI New York</a></li>
         <li><a href="https://www.bls.gov/cew/" target="_blank" rel="noopener">BLS · QCEW (wage growth)</a></li>
         <li><a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">ACS (renter incomes, gross rent)</a></li>
       </ul>
@@ -374,7 +475,7 @@
 </main>
 
 <footer>
-  <p>Stabilized · a working calculator for the public. No data here is confidential; everything traces to a published source link. Replace project name with publisher branding before launch.</p>
+  <p>Stabilized · a working calculator and explainer. No data here is confidential; everything traces to a published source. Project name is a placeholder for editorial branding decisions.</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>

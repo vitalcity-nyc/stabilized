@@ -367,6 +367,11 @@
     // Distressed buildings: those whose NOI flips negative.
     const noiFlipShare = finalNoi <= 0 ? 100 : Math.max(0, Math.min(100, (1 - (finalNoi / 0.05)) * 100 / 5)); // crude proxy
 
+    // Per-borough proxies for distress: outer-borough buildings (where the 100%
+    // stabilized prewar stock is concentrated) bear the brunt of NOI compression.
+    const distressedShareNow = D.DISTRESS.share_at_or_below_breakeven;
+    const distressedShareAfter = Math.min(60, distressedShareNow + Math.max(0, -noiDeltaPct) * 0.4);
+
     // Tenant
     $("#freeze-tenant").innerHTML = [
       statCard({ cls: "tenant", label: "Aggregate tenant savings vs. commensurate",
@@ -405,18 +410,22 @@
 
     // System
     $("#freeze-system").innerHTML = [
+      statCard({ cls: "system", label: "Distressed buildings · before vs. after",
+        value: `${distressedShareNow}% → ${FMT(distressedShareAfter, 0)}%`,
+        sub: "Share of regulated buildings with operating costs ≥ rental income (RGB I&E Table 8). Concentrated in fully-stabilized prewar outside core Manhattan.",
+        source: D.SRC.armlovich }),
+      statCard({ cls: "system", label: "Units potentially at foreclosure risk",
+        value: (Math.round(D.DISTRESS.scaled_units_at_risk * (1 + Math.max(0, -noiDeltaPct) / 100) / 10000) * 10000).toLocaleString(),
+        sub: `Per Armlovich: ~${D.DISTRESS.scaled_units_at_risk.toLocaleString()} units already underwater. Multi-year freeze compounds the gap.`,
+        source: D.SRC.armlovich }),
       statCard({ cls: "system", label: "Implied deferred maintenance",
         value: noiDeltaPct < 0 ? `+${FMT(Math.abs(noiDeltaPct) * 0.4, 1)}%` : "—",
         sub: "Maintenance share historically falls when NOI compresses (RGB I&E). Estimated as ~40% of NOI shortfall absorbed by deferred maintenance.",
         source: D.SRC.ie2025 }),
-      statCard({ cls: "system", label: "Tax delinquency risk",
-        value: dscrBelow100Share > 5 ? "Elevated" : dscrBelow120Share > 10 ? "Moderate" : "Low",
-        sub: "Class 2 delinquency historically correlates with sub-1.0x DSCR.",
-        source: D.SRC.ie2025 }),
-      statCard({ cls: "system", label: "Historical precedent",
-        value: "2× since 1969",
-        sub: "Orders #47 (2015) and #48 (2016) froze 1-yr leases at 0%.",
-        source: D.SRC.aptchart }),
+      statCard({ cls: "system", label: "Macro context vs. 2015–16 freeze",
+        value: "+5.3% vs −1.2%",
+        sub: "2026 PIOC: costs +5.3%. 2016 PIOC during the only prior freeze: costs FELL 1.2%, primarily energy.",
+        source: D.SRC.armlovich }),
     ].join("");
 
     drawFreezeChart(noiSeries);
@@ -453,14 +462,16 @@
 
   // ---------- Charts ----------
   let charts = {};
+  // Vital City chart tokens — match the design system palette.
   const TOKEN = {
-    grid: "#ebe3cf",
-    text: "#6b665d",
-    accent: "#b8401f",
-    accent2: "#1f3a5f",
-    muted: "#8b8680",
-    warn: "#8a6300",
-    fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, sans-serif',
+    grid: "#dddddd",         // --vc-cloud
+    text: "#707175",         // --vc-charcoal
+    accent: "#ff7c53",       // --vc-orange (Safety Orange) — owner side / formula output
+    accent2: "#217ebe",      // --vc-cerulean — comparison group / board vote
+    focal: "#e7466d",        // --vc-magenta — NYC-as-subject focal accent
+    indigo: "#394882",       // --vc-indigo — hybrid
+    muted: "#707175",        // --vc-charcoal
+    fontFamily: '"halyard-text", "Inter", -apple-system, BlinkMacSystemFont, sans-serif',
   };
   Chart.defaults.font.family = TOKEN.fontFamily;
   Chart.defaults.color = TOKEN.text;
@@ -481,8 +492,8 @@
       data: {
         labels,
         datasets: [
-          { label: "Board vote · 1-year", data: post.map(v => v.one_year), borderColor: TOKEN.accent2, backgroundColor: TOKEN.accent2, tension: 0.2, borderWidth: 2.5, pointRadius: 4 },
-          { label: "PIOC", data: post.map(v => piocLookup[v.year] || null), borderColor: TOKEN.muted, backgroundColor: TOKEN.muted, tension: 0.2, borderWidth: 2, borderDash: [4,4], pointRadius: 3 },
+          { label: "Board vote · 1-year", data: post.map(v => v.one_year), borderColor: TOKEN.accent2, backgroundColor: TOKEN.accent2, tension: 0, borderWidth: 2.5, pointRadius: 4 },
+          { label: "PIOC", data: post.map(v => piocLookup[v.year] || null), borderColor: TOKEN.muted, backgroundColor: TOKEN.muted, tension: 0, borderWidth: 2, borderDash: [4,4], pointRadius: 3 },
         ]
       },
       options: {
@@ -506,12 +517,12 @@
       { label: "Capital-inclusive",      val: fCapitalInclusive(other).one, color: TOKEN.accent },
       { label: "Small-building",         val: fSmallBuildingWeighted(other).one, color: TOKEN.accent },
       { label: "Traditional",            val: fTraditional(how).one, color: TOKEN.accent },
-      { label: "Min/max guardrails",     val: fGuardrails(other).one, color: TOKEN.warn },
+      { label: "Min/max guardrails",     val: fGuardrails(other).one, color: TOKEN.indigo },
       { label: "Renter CPI ex-shelter",  val: fRenterCpi(other).one, color: TOKEN.accent2 },
       { label: "Wage-indexed",           val: fWageIndexed(other).one, color: TOKEN.accent2 },
       { label: "Rent-burden stable",     val: fRentBurdenStable(other).one, color: TOKEN.accent2 },
       { label: "Renter income-indexed",  val: fRenterIncome(other).one, color: TOKEN.accent2 },
-      { label: "Affordability cap",      val: fAffordabilityCap(other).one, color: TOKEN.warn },
+      { label: "Affordability cap",      val: fAffordabilityCap(other).one, color: TOKEN.indigo },
       { label: "2025–26 board vote (#57)", val: 3.0, color: TOKEN.muted },
     ];
     rows.sort((a,b) => b.val - a.val);
@@ -558,7 +569,7 @@
       type: "line",
       data: { labels, datasets: [
         { label: "Board vote · 1-year", data: voteSeries, borderColor: TOKEN.accent2, backgroundColor: TOKEN.accent2, borderWidth: 2.5, pointRadius: 4, tension: 0.15 },
-        { label: "Net-revenue commensurate · 1-year (modeled)", data: cmsSeries, borderColor: TOKEN.accent, backgroundColor: TOKEN.accent, borderWidth: 2, borderDash: [3,4], pointRadius: 3, tension: 0.15 },
+        { label: "Net-revenue commensurate · 1-year (modeled)", data: cmsSeries, borderColor: TOKEN.accent, backgroundColor: TOKEN.accent, borderWidth: 2, borderDash: [3,4], pointRadius: 3, tension: 0 },
       ]},
       options: {
         responsive: true, maintainAspectRatio: false,
@@ -583,9 +594,9 @@
       data: {
         labels,
         datasets: [
-          { label: "Revenue", data: idx("rev"),    borderColor: TOKEN.accent2, backgroundColor: TOKEN.accent2, borderWidth: 2.5, tension: 0.2, pointRadius: 4 },
-          { label: "Costs",   data: idx("costs"),  borderColor: TOKEN.accent,  backgroundColor: TOKEN.accent,  borderWidth: 2.5, tension: 0.2, pointRadius: 4 },
-          { label: "NOI",     data: idx("noi"),    borderColor: TOKEN.warn,    backgroundColor: TOKEN.warn,    borderWidth: 2.5, tension: 0.2, pointRadius: 4 },
+          { label: "Revenue", data: idx("rev"),    borderColor: TOKEN.accent2, backgroundColor: TOKEN.accent2, borderWidth: 2.5, tension: 0, pointRadius: 4 },
+          { label: "Costs",   data: idx("costs"),  borderColor: TOKEN.accent,  backgroundColor: TOKEN.accent,  borderWidth: 2.5, tension: 0, pointRadius: 4 },
+          { label: "NOI",     data: idx("noi"),    borderColor: TOKEN.focal,   backgroundColor: TOKEN.focal,   borderWidth: 2.5, tension: 0, pointRadius: 4 },
         ]
       },
       options: {
