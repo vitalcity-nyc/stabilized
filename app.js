@@ -221,14 +221,14 @@
     const cp = fCpiAdjNoi(p);
     const tr = fTraditional(p);
     $("#how-formulas").innerHTML = [
-      fcard({ cls: "official", tag: "Official · profit held flat", name: "Net revenue", result: nr,
-        note: `Keeps the dollar amount of landlord profit unchanged. Required rent change: <strong>${FMT(nr.rev,2)}%</strong>.`,
+      fcard({ cls: "official", tag: "Staff formula · profit held flat", name: "Net revenue", result: nr,
+        note: `Keeps the dollar amount of landlord profit unchanged. Implied rent change: <strong>${FMT(nr.rev,2)}%</strong>.`,
         source: D.SRC.pioc2026 }),
-      fcard({ cls: "official", tag: "Official · profit grows with inflation", name: "Inflation-adjusted profit", result: cp,
-        note: `Lets profit keep its real value as prices rise. Required rent change: <strong>${FMT(cp.rev,2)}%</strong>.`,
+      fcard({ cls: "official", tag: "Staff formula · profit grows with inflation", name: "Inflation-adjusted profit", result: cp,
+        note: `Lets profit keep its real value as prices rise. Implied rent change: <strong>${FMT(cp.rev,2)}%</strong>.`,
         source: D.SRC.pioc2026 }),
-      fcard({ cls: "official", tag: "Official · 1969 original", name: "Traditional", result: tr,
-        note: `The simplest formula: cover rising costs only. Uses next year's projected costs for the 2-year lease. Doesn't consider how leases are split between 1-year and 2-year.`,
+      fcard({ cls: "official", tag: "Staff formula · 1969 original", name: "Traditional", result: tr,
+        note: `The simplest formula — cover rising costs only. Uses next year's projected costs for the 2-year lease. Doesn't consider how leases are split between 1-year and 2-year.`,
         source: D.SRC.pioc2026 }),
     ].join("");
 
@@ -271,10 +271,10 @@
 
     const hybrid = [
       fcard({ cls: "hybrid", tag: "Hybrid", name: "Ceiling and floor", result: fGuardrails(p),
-        note: "Run the official formula, but cap the increase at NYC wage growth and floor it at zero. Keeps both sides bounded.",
+        note: "Run the staff's formula, but cap the increase at NYC wage growth and floor it at zero. Keeps both sides bounded.",
         source: D.SRC.pioc2026 }),
       fcard({ cls: "hybrid", tag: "Hybrid", name: "Affordability cap", result: fAffordabilityCap(p),
-        note: "Run the official formula, but cap the increase at renter income growth — so rent burden can never grow.",
+        note: "Run the staff's formula, but cap the increase at renter income growth — so rent burden can never grow.",
         source: D.SRC.pioc2026 }),
     ];
 
@@ -312,7 +312,7 @@
     const p = readFreeze();
     $("#f-years-val").textContent = `${p.years} year${p.years === 1 ? "" : "s"}`;
 
-    // Counterfactual: what the official commensurate (net-revenue) would have applied each year.
+    // Counterfactual: what the staff's profit-held-flat formula (net-revenue) would have applied each year.
     const how = readHow();
     const commensurate = fNetRevenue(how); // % per year (1-year apportionment baseline)
 
@@ -368,7 +368,7 @@
     $("#freeze-tenant").innerHTML = [
       statCard({ cls: "tenant", label: "Total tenant savings vs. the formula",
         value: fmtMoney(aggSavings),
-        sub: `Citywide, over ${p.years} year${p.years===1?"":"s"} of freezing 1-year leases. Compared with the official "profit held flat" formula at ${FMT(commensurate.one,2)}% per year.`,
+        sub: `Citywide, over ${p.years} year${p.years===1?"":"s"} of freezing 1-year leases. Compared with the staff's "profit held flat" formula at ${FMT(commensurate.one,2)}% per year.`,
         source: D.SRC.pioc2026 }),
       statCard({ cls: "tenant", label: `Per-household savings (year ${p.years})`,
         value: fmtMoney(perHH),
