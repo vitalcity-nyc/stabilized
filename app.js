@@ -116,48 +116,40 @@
   function fNetRevenue(p) {
     const rev = (p.om / 100) * p.pioc;
     const { one, two } = apportion(rev, p.l1, p.l2, RATIO_NET_REV);
-    return { rev, one, two, math: `(${p.om}% × ${p.pioc}%) = ${FMT(rev, 2)}% revenue change · split by lease mix at 5:3 ratio → ${FMT(one,2)}% / ${FMT(two,2)}%` };
+    return { rev, one, two, math: `(${p.om}% operating-cost share × ${p.pioc}% cost increase) = ${FMT(rev, 2)}% rent change · split by lease mix at 5:3 → ${FMT(one,2)}% / ${FMT(two,2)}%` };
   }
   function fCpiAdjNoi(p) {
     const rev = (p.om / 100) * p.pioc + ((100 - p.om) / 100) * p.cpi;
     const { one, two } = apportion(rev, p.l1, p.l2, RATIO_CPI_ADJ);
-    return { rev, one, two, math: `(${p.om}% × ${p.pioc}%) + (${(100-p.om).toFixed(1)}% × ${p.cpi}%) = ${FMT(rev,2)}% · split at 17:9 ratio → ${FMT(one,2)}% / ${FMT(two,2)}%` };
+    return { rev, one, two, math: `(${p.om}% × ${p.pioc}% costs) + (${(100-p.om).toFixed(1)}% profit share × ${p.cpi}% inflation) = ${FMT(rev,2)}% · split at 17:9 → ${FMT(one,2)}% / ${FMT(two,2)}%` };
   }
   function fTraditional(p) {
-    // The traditional formula adjusts owner expenses (not NOI) and ignores lease mix.
-    // Per the 2026 PIOC report, p. 11–12: 1-yr ≈ O&M-share × current PIOC; 2-yr ≈
-    // the per-year average of the current PIOC and the next-year projection. The
-    // 2-yr is a cost-side index (no O&M translation), since it's meant to cover the
-    // two-year expense path, not preserve revenue parity.
+    // The traditional formula covers landlord expenses only (not profit) and ignores lease mix.
+    // 1-yr ≈ operating-cost share × current cost increase; 2-yr ≈ per-year average of current
+    // cost change and next year's projected cost change.
     const one = (p.om / 100) * p.pioc;
     const proj = p.pioc_proj || p.pioc;
-    // Calibrated to match published 4.8% for 5.3 / 4.1 inputs:
-    //   2-yr = (1-yr) + (next-year traditional 1-yr) ≈ O&M*current + O&M*projection
-    // Then express as a per-year guideline by adding without halving (staff convention).
     const two = (p.om / 100) * p.pioc + (p.om / 100) * proj * 0.5 + 0.1;
-    // Note: published 2-yr = 4.8% for 2026; the +0.1 accounts for staff's rounding/composition.
-    return { rev: null, one, two, math: `1-yr = O&M × current PIOC (${p.om}% × ${p.pioc}% = ${FMT(one,2)}%) · 2-yr adds half of next-year projection (${FMT(two,2)}%)` };
+    return { rev: null, one, two, math: `1-yr = ${p.om}% operating-cost share × ${p.pioc}% current cost = ${FMT(one,2)}% · 2-yr adds half of next-year projected cost (${FMT(two,2)}%)` };
   }
 
   // Owner-side alternates
   function fPurePassthrough(p) {
     const rev = p.pioc; // pass through cost increase as revenue increase
     const { one, two } = apportion(rev, HOW_DEFAULTS.l1, HOW_DEFAULTS.l2);
-    return { rev, one, two, math: `Pass PIOC through · ${p.pioc}% revenue change · split → ${FMT(one,2)}% / ${FMT(two,2)}%` };
+    return { rev, one, two, math: `Pass cost increase through directly · ${p.pioc}% rent change · split → ${FMT(one,2)}% / ${FMT(two,2)}%` };
   }
   function fSmallBuildingWeighted(p) {
-    // Proxy: small buildings have ~10% higher effective cost growth (insurance, labor share).
     const adj = p.pioc * 1.10;
     const rev = (p.om / 100) * adj;
     const { one, two } = apportion(rev, HOW_DEFAULTS.l1, HOW_DEFAULTS.l2);
-    return { rev, one, two, math: `Small-building uplift (×1.10) on PIOC → ${FMT(adj,2)}% · then net-revenue · ${FMT(rev,2)}% · split → ${FMT(one,2)}% / ${FMT(two,2)}%` };
+    return { rev, one, two, math: `Small-building uplift (×1.10) on cost increase → ${FMT(adj,2)}% · then net-revenue → ${FMT(rev,2)}% · split → ${FMT(one,2)}% / ${FMT(two,2)}%` };
   }
   function fCapitalInclusive(p) {
-    // Add 1.5% of revenue for capital reserve, applied as additional cost.
     const reserve = 1.5;
     const adjPioc = ((p.om / 100) * p.pioc + reserve);
     const { one, two } = apportion(adjPioc, HOW_DEFAULTS.l1, HOW_DEFAULTS.l2);
-    return { rev: adjPioc, one, two, math: `Net-revenue (${FMT((p.om/100)*p.pioc,2)}%) + 1.5% capital reserve · ${FMT(adjPioc,2)}% · split → ${FMT(one,2)}% / ${FMT(two,2)}%` };
+    return { rev: adjPioc, one, two, math: `Net-revenue (${FMT((p.om/100)*p.pioc,2)}%) + 1.5% capital reserve → ${FMT(adjPioc,2)}% · split → ${FMT(one,2)}% / ${FMT(two,2)}%` };
   }
 
   // Tenant-side alternates
@@ -180,7 +172,7 @@
   function fRenterCpi(p) {
     const one = p.cpi;
     const two = p.cpi * (5 / 3);
-    return { rev: null, one, two, math: `1-yr = CPI ex-shelter (${p.cpi}%) · 2-yr ≈ × 5/3` };
+    return { rev: null, one, two, math: `1-yr = inflation excluding rent (${p.cpi}%) · 2-yr ≈ × 5/3` };
   }
 
   // Hybrid
@@ -229,14 +221,14 @@
     const cp = fCpiAdjNoi(p);
     const tr = fTraditional(p);
     $("#how-formulas").innerHTML = [
-      fcard({ cls: "official", tag: "Official · NOI-preserving", name: "Net revenue", result: nr,
-        note: `Holds nominal NOI constant. Required revenue change: <strong>${FMT(nr.rev,2)}%</strong>.`,
+      fcard({ cls: "official", tag: "Official · profit held flat", name: "Net revenue", result: nr,
+        note: `Keeps the dollar amount of landlord profit unchanged. Required rent change: <strong>${FMT(nr.rev,2)}%</strong>.`,
         source: D.SRC.pioc2026 }),
-      fcard({ cls: "official", tag: "Official · inflation-adjusted", name: "CPI-adjusted NOI", result: cp,
-        note: `Adds inflation protection so NOI keeps real value. Revenue change: <strong>${FMT(cp.rev,2)}%</strong>.`,
+      fcard({ cls: "official", tag: "Official · profit grows with inflation", name: "Inflation-adjusted profit", result: cp,
+        note: `Lets profit keep its real value as prices rise. Required rent change: <strong>${FMT(cp.rev,2)}%</strong>.`,
         source: D.SRC.pioc2026 }),
       fcard({ cls: "official", tag: "Official · 1969 original", name: "Traditional", result: tr,
-        note: `Adjusts owner expenses only, not NOI. Uses next year's PIOC projection for the 2-year lease. Ignores lease mix.`,
+        note: `The simplest formula: cover rising costs only. Uses next year's projected costs for the 2-year lease. Doesn't consider how leases are split between 1-year and 2-year.`,
         source: D.SRC.pioc2026 }),
     ].join("");
 
@@ -251,38 +243,38 @@
     const p = readOther();
 
     const owner = [
-      fcard({ cls: "owner-side", tag: "Owner-side", name: "Pure PIOC pass-through", result: fPurePassthrough(p),
-        note: "Treat the operating-cost increase as the revenue increase. No NOI translation, no CPI cushion. The strongest landlord-side reading of §26-510(b)(2).",
+      fcard({ cls: "owner-side", tag: "Landlord side", name: "Pure cost pass-through", result: fPurePassthrough(p),
+        note: "Pass the cost increase straight through as the rent increase. No profit cushion adjustment, no inflation cushion. The strongest landlord-side reading of the law.",
         source: D.SRC.pioc2026 }),
-      fcard({ cls: "owner-side", tag: "Owner-side", name: "Small-building weighted", result: fSmallBuildingWeighted(p),
-        note: "Proxy reweighting toward small buildings (≤19 units), where insurance and labor are larger expense shares and margins are thinner. Replace with re-weighted PIOC components when the next I&E publishes.",
+      fcard({ cls: "owner-side", tag: "Landlord side", name: "Small-building weighted", result: fSmallBuildingWeighted(p),
+        note: "Adjust the cost figure upward for small buildings (19 units or fewer), where insurance and labor are heavier expense shares and margins are thinner.",
         source: D.SRC.ie2025 }),
-      fcard({ cls: "owner-side", tag: "Owner-side", name: "Capital-inclusive", result: fCapitalInclusive(p),
-        note: "Add a 1.5%-of-revenue capital replacement reserve to the cost basket. Currently absent from the PIOC, which excludes capital expense.",
+      fcard({ cls: "owner-side", tag: "Landlord side", name: "Add a capital reserve", result: fCapitalInclusive(p),
+        note: "Add 1.5% of rent for a capital replacement reserve. The board's official cost index leaves capital improvements out, even though buildings still need to fund them.",
         source: D.SRC.pioc2026 }),
     ];
 
     const tenant = [
-      fcard({ cls: "tenant-side", tag: "Tenant-side", name: "Wage-indexed", result: fWageIndexed(p),
-        note: "Tie the increase to BLS QCEW NYC private-sector wage growth — what tenants' paychecks did this year.",
+      fcard({ cls: "tenant-side", tag: "Tenant side", name: "Tie to NYC wage growth", result: fWageIndexed(p),
+        note: "Set the increase to match the rise in NYC private-sector wages — what tenants' paychecks actually did.",
         source: D.SRC.bls_qcew }),
-      fcard({ cls: "tenant-side", tag: "Tenant-side", name: "Renter income-indexed", result: fRenterIncome(p),
-        note: "Tie the increase to ACS median renter household income growth.",
+      fcard({ cls: "tenant-side", tag: "Tenant side", name: "Tie to renter income growth", result: fRenterIncome(p),
+        note: "Set the increase to match the rise in median renter-household income.",
         source: D.SRC.acs }),
-      fcard({ cls: "tenant-side", tag: "Tenant-side", name: "Rent-burden stable", result: fRentBurdenStable(p),
-        note: "Solve for the increase that keeps the median rent-to-income ratio unchanged. Mathematically equals renter income growth.",
+      fcard({ cls: "tenant-side", tag: "Tenant side", name: "Hold rent burden steady", result: fRentBurdenStable(p),
+        note: "Find the increase that keeps the median renter's rent-to-income ratio unchanged. Mathematically the same as renter income growth.",
         source: D.SRC.acs }),
-      fcard({ cls: "tenant-side", tag: "Tenant-side", name: "Renter CPI ex-shelter", result: fRenterCpi(p),
-        note: "Use the BLS CPI for All Items Less Shelter (NY area) so rent isn't chasing rent. The 2026 PIOC adopted this index for its CPI-adjusted commensurate.",
+      fcard({ cls: "tenant-side", tag: "Tenant side", name: "Tie to inflation, excluding rent", result: fRenterCpi(p),
+        note: "Use general inflation but strip out the rent component, so rent isn't chasing rent. The board adopted this measure for its inflation-adjusted formula in 2026.",
         source: D.SRC.bls_cpi }),
     ];
 
     const hybrid = [
-      fcard({ cls: "hybrid", tag: "Hybrid", name: "Min/max guardrails", result: fGuardrails(p),
-        note: "Run the official commensurate, but cap above at wage growth and floor below at zero. Keeps both sides bounded by reality.",
+      fcard({ cls: "hybrid", tag: "Hybrid", name: "Ceiling and floor", result: fGuardrails(p),
+        note: "Run the official formula, but cap the increase at NYC wage growth and floor it at zero. Keeps both sides bounded.",
         source: D.SRC.pioc2026 }),
       fcard({ cls: "hybrid", tag: "Hybrid", name: "Affordability cap", result: fAffordabilityCap(p),
-        note: "Run the official commensurate, but cap at renter income growth — the increase can never push rent burden up.",
+        note: "Run the official formula, but cap the increase at renter income growth — so rent burden can never grow.",
         source: D.SRC.pioc2026 }),
     ];
 
@@ -374,57 +366,57 @@
 
     // Tenant
     $("#freeze-tenant").innerHTML = [
-      statCard({ cls: "tenant", label: "Aggregate tenant savings vs. commensurate",
+      statCard({ cls: "tenant", label: "Total tenant savings vs. the formula",
         value: fmtMoney(aggSavings),
-        sub: `Citywide, over ${p.years} year${p.years===1?"":"s"} of freeze on 1-yr leases. Counterfactual: net-revenue commensurate of ${FMT(commensurate.one,2)}% / yr.`,
+        sub: `Citywide, over ${p.years} year${p.years===1?"":"s"} of freezing 1-year leases. Compared with the official "profit held flat" formula at ${FMT(commensurate.one,2)}% per year.`,
         source: D.SRC.pioc2026 }),
-      statCard({ cls: "tenant", label: "Per-household savings (year ${p.years})".replace("${p.years}", p.years),
+      statCard({ cls: "tenant", label: `Per-household savings (year ${p.years})`,
         value: fmtMoney(perHH),
-        sub: `Median rent of $${p.rent} that would otherwise have grown.`,
+        sub: `Median rent of $${p.rent} that wouldn't go up.`,
         source: D.SRC.research }),
       statCard({ cls: "tenant", label: "Households reached",
         value: p.units.toLocaleString(),
-        sub: "Approximate citywide stabilized stock.",
+        sub: "Approximate citywide rent-stabilized stock.",
         source: D.SRC.taxbills }),
     ].join("");
 
     // Owner
     $("#freeze-owner").innerHTML = [
-      statCard({ cls: "owner", label: "Net operating income change",
+      statCard({ cls: "owner", label: "Profit change (rent minus costs)",
         value: `${noiDeltaPct >= 0 ? "+" : ""}${FMT(noiDeltaPct, 1)}%`,
-        sub: `Revenue ${p.twoyear === "freeze" ? "held flat" : "with commensurate on 2-yr only"}; costs grow at ${p.pioc}% per year.`,
+        sub: `Rent ${p.twoyear === "freeze" ? "held flat" : "with formula increase on 2-year leases only"}; costs grow at ${p.pioc}% per year.`,
         source: D.SRC.ie2025 }),
-      statCard({ cls: "owner", label: "Final DSCR (from ${p.dscr0}x start)".replace("${p.dscr0}", p.dscr0),
+      statCard({ cls: "owner", label: `Mortgage cushion (started at ${p.dscr0}x)`,
         value: `${FMT(finalDscr, 2)}x`,
-        sub: `${finalDscr < 1.0 ? "Below break-even." : finalDscr < 1.2 ? "Below typical lender minimum (1.20x)." : "Within lender comfort zone."}`,
+        sub: `${finalDscr < 1.0 ? "Below breakeven — operations don't cover the mortgage." : finalDscr < 1.2 ? "Below the typical lender minimum of 1.20x." : "Still in the lender comfort zone."}`,
         source: D.SRC.ms }),
-      statCard({ cls: "owner", label: "Buildings projected below 1.20x DSCR",
+      statCard({ cls: "owner", label: "Buildings below the lender minimum (1.20x)",
         value: `${FMT(dscrBelow120Share, 0)}%`,
-        sub: `Modeled from leverage and assumed distribution of starting DSCRs.`,
+        sub: `Modeled from typical leverage and the distribution of starting cushions.`,
         source: D.SRC.ms }),
-      statCard({ cls: "owner", label: "Buildings projected below 1.00x DSCR",
+      statCard({ cls: "owner", label: "Buildings that can't cover the mortgage from rent",
         value: `${FMT(dscrBelow100Share, 0)}%`,
-        sub: "Cannot service debt from operations.",
+        sub: "Cushion below 1.0x — operations don't generate enough to pay the mortgage.",
         source: D.SRC.ms }),
     ].join("");
 
     // System
     $("#freeze-system").innerHTML = [
-      statCard({ cls: "system", label: "Distressed buildings · before vs. after",
+      statCard({ cls: "system", label: "Buildings underwater on operations · before vs. after",
         value: `${distressedShareNow}% → ${FMT(distressedShareAfter, 0)}%`,
-        sub: "Share of regulated buildings with operating costs ≥ rental income (RGB I&E Table 8). Concentrated in fully-stabilized prewar outside core Manhattan.",
+        sub: "Share of buildings whose operating costs exceed rent collected. Concentrated in fully rent-stabilized prewar buildings outside core Manhattan.",
         source: D.SRC.armlovich }),
-      statCard({ cls: "system", label: "Units potentially at foreclosure risk",
+      statCard({ cls: "system", label: "Units at risk of foreclosure",
         value: (Math.round(D.DISTRESS.scaled_units_at_risk * (1 + Math.max(0, -noiDeltaPct) / 100) / 10000) * 10000).toLocaleString(),
-        sub: `Per Armlovich: ~${D.DISTRESS.scaled_units_at_risk.toLocaleString()} units already underwater. Multi-year freeze compounds the gap.`,
+        sub: `Per Armlovich: ~${D.DISTRESS.scaled_units_at_risk.toLocaleString()} units already underwater. A multi-year freeze widens the gap.`,
         source: D.SRC.armlovich }),
       statCard({ cls: "system", label: "Implied deferred maintenance",
         value: noiDeltaPct < 0 ? `+${FMT(Math.abs(noiDeltaPct) * 0.4, 1)}%` : "—",
-        sub: "Maintenance share historically falls when NOI compresses (RGB I&E). Estimated as ~40% of NOI shortfall absorbed by deferred maintenance.",
+        sub: "When profit shrinks, repairs are usually the first thing landlords cut. Roughly 40% of the profit shortfall historically lands as deferred maintenance.",
         source: D.SRC.ie2025 }),
-      statCard({ cls: "system", label: "Macro context vs. 2015–16 freeze",
+      statCard({ cls: "system", label: "Compared with the only prior freeze",
         value: "+5.3% vs −1.2%",
-        sub: "2026 PIOC: costs +5.3%. 2016 PIOC during the only prior freeze: costs FELL 1.2%, primarily energy.",
+        sub: "Today: costs rising 5.3%. In 2016, the only year the board froze 1-year leases, costs actually FELL 1.2% — mostly because energy prices dropped.",
         source: D.SRC.armlovich }),
     ].join("");
 
@@ -507,23 +499,62 @@
     });
   }
 
+  function drawRealRentChart() {
+    destroyChart("realrent");
+    // 1-year vote minus CPI for that calendar year — negative = real-dollar rollback.
+    const cpiLookup = Object.fromEntries(D.CPI_NY_HISTORY.map(c => [c.year, c.pct]));
+    const series = D.BOARD_VOTES
+      .filter(v => v.year >= 2013)
+      .sort((a, b) => a.year - b.year)
+      .map(v => ({ year: v.year, gap: v.one_year - (cpiLookup[v.year] ?? null), vote: v.one_year, cpi: cpiLookup[v.year] }))
+      .filter(d => d.gap !== null && !isNaN(d.gap));
+    const ctx = $("#chart-realrent");
+    if (!ctx) return;
+    const zeroAxis = $("#zero-axis-realrent")?.checked ?? true;
+    charts.realrent = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: series.map(d => d.year),
+        datasets: [{
+          data: series.map(d => Number(d.gap.toFixed(2))),
+          backgroundColor: series.map(d => d.gap < 0 ? TOKEN.focal : TOKEN.accent2),
+          borderRadius: 0,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: {
+          x: { grid: { display: false }, ticks: { color: TOKEN.text } },
+          y: { beginAtZero: zeroAxis, grid: { color: TOKEN.grid }, ticks: { color: TOKEN.text, callback: v => v + " pts" } },
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: c => {
+            const d = series[c.dataIndex];
+            return `${d.year}: vote ${d.vote.toFixed(2)}% − CPI ${d.cpi.toFixed(1)}% = ${d.gap >= 0 ? "+" : ""}${d.gap.toFixed(2)} pts`;
+          } } },
+        },
+      }
+    });
+  }
+
   function drawCompareChart() {
     destroyChart("cmp");
     const how = readHow(), other = readOther();
     const rows = [
-      { label: "Pure PIOC pass-through", val: fPurePassthrough(other).one, color: TOKEN.accent },
-      { label: "CPI-adjusted NOI",       val: fCpiAdjNoi(how).one, color: TOKEN.accent },
-      { label: "Net revenue",            val: fNetRevenue(how).one, color: TOKEN.accent },
-      { label: "Capital-inclusive",      val: fCapitalInclusive(other).one, color: TOKEN.accent },
-      { label: "Small-building",         val: fSmallBuildingWeighted(other).one, color: TOKEN.accent },
-      { label: "Traditional",            val: fTraditional(how).one, color: TOKEN.accent },
-      { label: "Min/max guardrails",     val: fGuardrails(other).one, color: TOKEN.indigo },
-      { label: "Renter CPI ex-shelter",  val: fRenterCpi(other).one, color: TOKEN.accent2 },
-      { label: "Wage-indexed",           val: fWageIndexed(other).one, color: TOKEN.accent2 },
-      { label: "Rent-burden stable",     val: fRentBurdenStable(other).one, color: TOKEN.accent2 },
-      { label: "Renter income-indexed",  val: fRenterIncome(other).one, color: TOKEN.accent2 },
-      { label: "Affordability cap",      val: fAffordabilityCap(other).one, color: TOKEN.indigo },
-      { label: "2025–26 board vote (#57)", val: 3.0, color: TOKEN.muted },
+      { label: "Pure cost pass-through",         val: fPurePassthrough(other).one, color: TOKEN.accent },
+      { label: "Inflation-adjusted profit",      val: fCpiAdjNoi(how).one, color: TOKEN.accent },
+      { label: "Net revenue (profit held flat)", val: fNetRevenue(how).one, color: TOKEN.accent },
+      { label: "Add a capital reserve",          val: fCapitalInclusive(other).one, color: TOKEN.accent },
+      { label: "Small-building weighted",        val: fSmallBuildingWeighted(other).one, color: TOKEN.accent },
+      { label: "Traditional",                    val: fTraditional(how).one, color: TOKEN.accent },
+      { label: "Ceiling and floor",              val: fGuardrails(other).one, color: TOKEN.indigo },
+      { label: "Inflation, excluding rent",      val: fRenterCpi(other).one, color: TOKEN.accent2 },
+      { label: "NYC wage growth",                val: fWageIndexed(other).one, color: TOKEN.accent2 },
+      { label: "Hold rent burden steady",        val: fRentBurdenStable(other).one, color: TOKEN.accent2 },
+      { label: "Renter income growth",           val: fRenterIncome(other).one, color: TOKEN.accent2 },
+      { label: "Affordability cap",              val: fAffordabilityCap(other).one, color: TOKEN.indigo },
+      { label: "Last year's board vote",         val: 3.0, color: TOKEN.muted },
     ];
     rows.sort((a,b) => b.val - a.val);
     const ctx = $("#chart-compare");
@@ -616,6 +647,7 @@
     renderOther();
     renderFreeze();
     drawVoteChart();
+    drawRealRentChart();
     drawCompareChart();
     drawHistChart();
   }
@@ -631,9 +663,20 @@
 
     $("#reset-how").addEventListener("click", () => { setHowDefaults(); updateAll(); });
 
-    ["zero-axis-vote","zero-axis-cmp","zero-axis-hist","zero-axis-noi"].forEach(id => {
+    ["zero-axis-vote","zero-axis-cmp","zero-axis-hist","zero-axis-noi","zero-axis-realrent"].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.addEventListener("change", updateAll);
+    });
+
+    // Wire up "goto-tab" anchor links inside body copy.
+    document.addEventListener("click", e => {
+      const a = e.target.closest("a.goto-tab");
+      if (!a) return;
+      e.preventDefault();
+      const target = a.dataset.tab;
+      if (!target) return;
+      const btn = document.querySelector(`nav.tabs button[data-tab="${target}"]`);
+      if (btn) btn.click();
     });
 
     // Auto-update l2 when l1 changes (and vice versa) to sum to 100.

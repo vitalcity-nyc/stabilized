@@ -41,12 +41,12 @@ const SRC = {
 
 // Statutory criteria the board must consider (RSL §26-510(b)).
 const STATUTORY = [
-  { id: 1, label: "Real estate taxes and water/sewer rates", report: "Price Index of Operating Costs (PIOC)", source: SRC.rsl },
-  { id: 2, label: "Gross operating and maintenance costs (insurance, fees, fuel, labor)", report: "PIOC + Income & Expense Study", source: SRC.rsl },
-  { id: 3, label: "Cost and availability of financing (interest rates)", report: "Mortgage Survey Report", source: SRC.rsl },
-  { id: 4, label: "Overall supply of housing and overall vacancy rates", report: "Housing Supply Report", source: SRC.rsl },
-  { id: 5, label: "Cost of living indices", report: "Income & Affordability Study (CPI)", source: SRC.rsl },
-  { id: 6, label: "Such other data as may be made available", report: "Public testimony, supplementary sources", source: SRC.rsl },
+  { id: 1, label: "Real estate taxes and water and sewer rates", report: "Annual cost index report", source: SRC.rsl },
+  { id: 2, label: "Operating and maintenance costs — insurance, fees, fuel, labor", report: "Cost index + income and expense study", source: SRC.rsl },
+  { id: 3, label: "Cost and availability of financing", report: "Mortgage survey", source: SRC.rsl },
+  { id: 4, label: "Overall supply of housing and overall vacancy rates", report: "Housing supply report", source: SRC.rsl },
+  { id: 5, label: "Cost of living", report: "Income and affordability study", source: SRC.rsl },
+  { id: 6, label: "Other data the board chooses to consider", report: "Public testimony, other sources", source: SRC.rsl },
 ];
 
 // PIOC component breakdown for the most recent year (2026 PIOC, published April 9, 2026).
@@ -232,7 +232,27 @@ const CYCLE_2026 = {
   source_appointees: "https://www.nyc.gov/mayors-office/news/2026/02/mayor-mamdani-announces-six-appointees-to-the-rent-guidelines-bo",
 };
 
+// ---- CPI history for the NY-Newark-Jersey City metro area, year-over-year %.
+// Source: BLS CPI-U NY area (annual averages). Used to test the claim that the
+// adopted 1-year RGB vote has fallen below inflation for ten consecutive years.
+const CPI_NY_HISTORY = [
+  { year: 2013, pct: 1.7,  source: SRC.bls_cpi },
+  { year: 2014, pct: 1.5,  source: SRC.bls_cpi },
+  { year: 2015, pct: 0.1,  source: SRC.bls_cpi },
+  { year: 2016, pct: 1.0,  source: SRC.bls_cpi },
+  { year: 2017, pct: 1.9,  source: SRC.bls_cpi },
+  { year: 2018, pct: 1.9,  source: SRC.bls_cpi },
+  { year: 2019, pct: 1.5,  source: SRC.bls_cpi },
+  { year: 2020, pct: 1.6,  source: SRC.bls_cpi },
+  { year: 2021, pct: 3.7,  source: SRC.bls_cpi },
+  { year: 2022, pct: 6.3,  source: SRC.bls_cpi },
+  { year: 2023, pct: 4.0,  source: SRC.bls_cpi },
+  { year: 2024, pct: 3.5,  source: SRC.bls_cpi },
+  { year: 2025, pct: 4.0,  source: SRC.pioc2025 },
+];
+
 window.STABILIZED_DATA = {
+  CPI_NY_HISTORY,
   SRC, STATUTORY, PIOC_2026_COMPONENTS, PIOC_HISTORY, CORE_PIOC,
   COMMENSURATE_INPUTS, COMMENSURATE_OUTPUTS, BOARD_VOTES, STOCK,
   IE_SUMMARY, SUPPORTING, FREEZE_PRECEDENT,
