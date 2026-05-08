@@ -265,7 +265,7 @@
         note: "Find the increase that keeps the median renter's rent-to-income ratio unchanged. Mathematically the same as renter income growth.",
         source: D.SRC.acs }),
       fcard({ cls: "tenant-side", tag: "Tenant side", name: "Tie to inflation, excluding rent", result: fRenterCpi(p),
-        note: "Use general inflation but strip out the rent component, so rent isn't chasing rent. The board adopted this measure for its inflation-adjusted formula in 2026.",
+        note: "Use general inflation but strip out the rent component, so the guideline isn't chasing the rents it sets. This is one defensible inflation series among several; the law does not specify which CPI measure to use.",
         source: D.SRC.bls_cpi }),
     ];
 
