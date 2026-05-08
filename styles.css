@@ -135,6 +135,17 @@ h1.display {
   font-synthesis: none;
 }
 
+p.deck {
+  font-family: var(--vc-font-serif);
+  font-weight: 300;
+  font-size: clamp(20px, 1.9vw, 26px);
+  line-height: 1.3;
+  color: var(--vc-text);
+  max-width: 38ch;
+  margin: 0 0 var(--vc-space-5) 0;
+  letter-spacing: -0.005em;
+}
+
 p.lede {
   font-family: var(--vc-font-sans);
   font-weight: var(--vc-weight-book);
