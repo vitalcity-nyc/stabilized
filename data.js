@@ -218,18 +218,27 @@ const DISTRESS = {
   source_armlovich: "https://www.vitalcitynyc.org/a-housing-roadmap-for-new-yorks-next-mayor/",
 };
 
-// ---- The 2026 cycle (the upcoming June 2026 vote, Order #58) ----
+// ---- The 2026 cycle (Order #58 — preliminary vote May 7, final June 25) ----
 const CYCLE_2026 = {
   order_number: 58,
   lease_period: "Oct 1, 2026 – Sept 30, 2027",
   pioc_published: "April 9, 2026",
-  preliminary_range_one_year: [2, 5],
-  preliminary_range_two_year: [4, 7],
-  expected_final_vote: "Late June 2026",
+  ia_study_published: "April 16, 2026",
+  preliminary_vote_date: "May 7, 2026",
+  preliminary_range_one_year: [0, 2],
+  preliminary_range_two_year: [0, 4],
+  preliminary_vote_tally: "7-1, with 1 abstention",
+  failed_tenant_proposal_one_year: [-3, 0],
+  failed_tenant_proposal_two_year: [-4.5, 0],
+  failed_owner_proposal_one_year: [3, 5.5],
+  failed_owner_proposal_two_year: [6, 8],
+  expected_final_vote: "June 25, 2026",
   mayor: "Mamdani (took office Jan 2026)",
   appointees_announced: "February 2026",
   source_meetings: "https://rentguidelinesboard.cityofnewyork.us/2026-meetings/",
   source_appointees: "https://www.nyc.gov/mayors-office/news/2026/02/mayor-mamdani-announces-six-appointees-to-the-rent-guidelines-bo",
+  source_prelim_thecity: "https://www.thecity.nyc/2026/05/07/rent-freeze-stabilized-apartment-lease-hikes-vote/",
+  source_prelim_mayor: "https://www.nyc.gov/mayors-office/news/2026/05/mayor-mamdani-s-statement-on-the-rent-guidelines-board-s-prelimi",
 };
 
 // ---- CPI history for the NY-Newark-Jersey City metro area, year-over-year %.
